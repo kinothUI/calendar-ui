@@ -1,0 +1,3 @@
+longMonth: '{{date, MMMM}}'
+firstDayOfMonth: '{{date, Do MMM}}'
+weekDayShort: '{{date, D}}'

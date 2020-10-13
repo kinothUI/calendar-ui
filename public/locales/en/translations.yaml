@@ -1,0 +1,18 @@
+auth:
+  login: 'Login'
+  logout: 'Sign out'
+  email:
+    label: 'E-Mail Address'
+    placeholder: '$t(auth.email.label)'
+  password:
+    label: 'Password'
+    placeholder: '$t(auth.email.label)'
+  progress:
+    header: 'Authentication'
+    body: 'Verifying account credentials'
+    error:
+      header: 'Autnetication failed'
+      body: 'Username or Password wrong'
+language:
+  de: 'German'
+  en: 'English'

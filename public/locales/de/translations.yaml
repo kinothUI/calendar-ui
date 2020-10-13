@@ -1,0 +1,18 @@
+auth:
+  login: 'Anmelden'
+  logout: 'Abmelden'
+  email:
+    label: 'E-Mail Adresse'
+    placeholder: '$t(auth.email.label)'
+  password:
+    label: 'Passwort'
+    placeholder: '$t(auth.password.label)'
+  progress:
+    header: 'Anmeldung läuft'
+    body: 'Überprüfe Login-Daten'
+    error:
+      header: 'Anmeldung fehlgeschlagen'
+      body: 'Username oder Passwort falsch'
+language:
+  de: 'Deutsch'
+  en: 'English'
