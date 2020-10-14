@@ -11,3 +11,15 @@
   min-height: calc(10vh - 100px);
   padding-top: 100px;
 }
+
+.calendar-day {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.9em;
+  font-weight: 700;
+  background: #ababab3b;
+  padding: 0.4em;
+  text-align: center;
+  border-radius: 50%;
+}

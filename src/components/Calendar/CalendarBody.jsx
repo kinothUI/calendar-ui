@@ -36,9 +36,11 @@ const CalenderBody = (props) => {
   return (
     <React.Fragment>
       <Divider />
-      <Grid columns={7}>
+      <Grid columns={7} celled>
         {weekdays.map((day, key) => (
-          <Grid.Column key={key}>{day}</Grid.Column>
+          <Grid.Column key={key} className="no-min-height">
+            {day}
+          </Grid.Column>
         ))}
       </Grid>
       <Grid celled columns={7}>
@@ -59,10 +61,18 @@ const renderWeekDays = (week, t, firstDayOfMonth, nextMonthsFirstDay) => {
         const isFirstDayOfMonth = firstDayOfMonth.isSame(day);
         const isNextMonthsFirstDay = nextMonthsFirstDay.isSame(day);
         return (
-          <Grid.Column key={index}>
-            {((isFirstDayOfMonth || isNextMonthsFirstDay) &&
-              t('format:firstDayOfMonth', { date: day })) ||
-              t('format:weekDayShort', { date: day })}
+          <Grid.Column key={index} className="no-padding">
+            <div
+              className={
+                isFirstDayOfMonth || isNextMonthsFirstDay
+                  ? 'calendar-day'
+                  : 'calendar-day notfirstday'
+              }
+            >
+              {((isFirstDayOfMonth || isNextMonthsFirstDay) &&
+                t('format:firstDayOfMonth', { date: day })) ||
+                t('format:weekDayShort', { date: day })}
+            </div>
           </Grid.Column>
         );
       })}

@@ -8,6 +8,7 @@ import App from 'App';
 
 import 'config/i18next';
 import './index.css';
+import './index.overrides.css';
 import 'semantic-ui-css/semantic.min.css';
 
 const app = (
