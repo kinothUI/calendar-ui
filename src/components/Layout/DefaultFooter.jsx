@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Icon, Button, Form } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 // import { useTranslation } from 'react-i18next';
 // import { languageOptions } from 'config/i18next';
 

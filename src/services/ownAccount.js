@@ -22,7 +22,6 @@ export const logout = () => callApi('/public/logout', HttpMethod.POST);
  */
 export const fetchAuthenticatedAccount = () => callApi('/public/account');
 
-// export const fetchAccounts = () => callApi("/api/account/");
 export const fetchAddAccount = (body) =>
   callApi('/api/account/add', HttpMethod.POST, body);
 export const fetchPatchAccount = (body) =>

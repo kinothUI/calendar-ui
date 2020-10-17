@@ -12,6 +12,10 @@
   padding-top: 100px;
 }
 
+.padding-top {
+  padding-top: 25px;
+}
+
 .calendar-day {
   position: absolute;
   bottom: 5px;
@@ -22,4 +26,14 @@
   padding: 0.4em;
   text-align: center;
   border-radius: 50%;
+}
+
+.ui.visible.left.overlay.sidebar.position-top {
+  top: auto;
+}
+
+.backend-main-content {
+  position: relative;
+  left: 100px;
+  top: 50px;
 }

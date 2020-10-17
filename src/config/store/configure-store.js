@@ -27,9 +27,8 @@ export default function configureStore(history) {
  * Production store configuration
  */
 const configureProductionStore = (sagaMiddleware, history) => {
-  ('configure production store');
+  console.log('configure production store');
 
-  // return createStore(rootReducer, applyMiddleware(sagaMiddleware));
   return createStore(
     rootReducer(history),
     applyMiddleware(sagaMiddleware, routerMiddleware(history)),
@@ -40,7 +39,7 @@ const configureProductionStore = (sagaMiddleware, history) => {
  * Development store configuration
  */
 const configureDevStore = (sagaMiddleware, history) => {
-  ('configure dev store');
+  console.log('configure dev store');
 
   const logger = createLogger({
     collapsed: true,
@@ -49,10 +48,6 @@ const configureDevStore = (sagaMiddleware, history) => {
     timestamp: true,
   });
 
-  // return createStore(
-  //   rootReducer,
-  //   composeWithDevTools(applyMiddleware(sagaMiddleware, logger)),
-  // );
   return createStore(
     rootReducer(history),
     composeWithDevTools(

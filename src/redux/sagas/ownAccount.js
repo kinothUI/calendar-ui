@@ -9,7 +9,7 @@ import {
   LOGOUT,
   FETCH_OWN_ACCOUNT,
   requestOwnAccount,
-  PATCH_OWN_ACCOUNT,
+  // PATCH_OWN_ACCOUNT,
   failurePatchAccount,
   successPatchAccount,
   ACCOUNT_PATCH,
@@ -35,14 +35,14 @@ function* fetchAuthenticatedAccountWorker(action) {
   if (action.type === LOGIN) yield put(push('/calendar'));
 }
 
-function* patchAccountWorker(action) {
+function* patchOwnAccountWorker(action) {
   const { error } = yield call(fetchPatchAccount, action.account);
 
   if (error) yield put(failurePatchAccount(error));
   else yield put(successPatchAccount(action.account));
 }
 
-function* logoutWorker(action) {
+function* logoutWorker() {
   const { response, error } = yield call(logout);
 
   if (error) {
@@ -69,8 +69,8 @@ export function* fetchOwnAccountWatcher() {
   yield takeLatest(FETCH_OWN_ACCOUNT, fetchAuthenticatedAccountWorker);
 }
 
-export function* patchAccountWatcher() {
-  yield takeLatest(ACCOUNT_PATCH, patchAccountWorker);
+export function* patchOwnAccountWatcher() {
+  yield takeLatest(ACCOUNT_PATCH, patchOwnAccountWorker);
 }
 
 export function* logoutWatcher() {

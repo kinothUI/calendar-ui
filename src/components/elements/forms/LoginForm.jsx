@@ -37,44 +37,47 @@ const LoginForm = (props) => {
   const statusMsg = renderStatusMessage(state.submitted, ownAccount, t);
 
   return (
-    <Grid
-      centered
-      verticalAlign="middle"
-      columns="2"
-      doubling
-      style={{ height: '70vh' }}
-    >
-      <Grid.Column width="8">
-        <Segment padded attached="top">
-          <Form autoComplete="off" onSubmit={handleSubmit}>
-            <Form.Input
-              name="email"
-              type="text"
-              label={t('auth.email.label')}
-              placeholder={t('auth.email.placeholder')}
-              onChange={handleOnChange}
-              required
-            />
-            <Form.Input
-              name="password"
-              type="password"
-              label={t('auth.password.label')}
-              placeholder={t('auth.password.placeholder')}
-              onChange={handleOnChange}
-              required
-            />
-            <Divider />
-            <Button
-              content={t('auth.login')}
-              type="submit"
-              disabled={ownAccount.isFetching}
-              fluid
-            />
-          </Form>
-        </Segment>
-        {statusMsg}
-      </Grid.Column>
-    </Grid>
+    <React.Fragment>
+      <Grid
+        centered
+        verticalAlign="middle"
+        columns="2"
+        doubling
+        style={{ height: '70vh' }}
+      >
+        <Grid.Column width="5">
+          <Segment padded attached="top">
+            <Form autoComplete="off" onSubmit={handleSubmit}>
+              <Form.Input
+                name="email"
+                type="text"
+                label={t('auth.email.label')}
+                placeholder={t('auth.email.placeholder')}
+                onChange={handleOnChange}
+                required
+              />
+              <Form.Input
+                name="password"
+                type="password"
+                label={t('auth.password.label')}
+                placeholder={t('auth.password.placeholder')}
+                onChange={handleOnChange}
+                required
+              />
+              <Divider />
+              <Button
+                content={t('auth.login')}
+                type="submit"
+                disabled={ownAccount.isFetching}
+                fluid
+              />
+            </Form>
+          </Segment>
+          {statusMsg}
+        </Grid.Column>
+      </Grid>
+      <div style={{ minHeight: '15vh' }}></div>
+    </React.Fragment>
   );
 };
 
@@ -83,7 +86,7 @@ const renderStatusMessage = (submitted, ownAccount, t) => {
   if (submitted) {
     if (isFetching) {
       return (
-        <Message icon attached="bottom">
+        <Message positive icon attached="bottom">
           <Icon name="circle notched" loading />
           <Message.Content>
             <Message.Header>{t('auth.progress.header')}</Message.Header>

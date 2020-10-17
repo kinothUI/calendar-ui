@@ -1,3 +1,11 @@
+backend:
+  menu:
+    account:
+      label: 'User'
+    team:
+      label: 'Team'
+    room:
+      label: 'Meeting-Room'
 auth:
   login: 'Login'
   logout: 'Sign out'

@@ -17,3 +17,20 @@
   width: 30.08px;
   height: 30.08px;
 }
+
+.ui.menu .item.no-padding {
+  padding: 0 !important;
+}
+
+.brand-button-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.brand-button {
+  background-image: url(/public/brand-button.png);
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
