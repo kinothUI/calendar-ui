@@ -3,11 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Header, Divider } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
-import { action, FETCH } from 'redux/actions';
+import { action, FETCH, CREATE, UPDATE } from 'redux/actions';
 import { EntityDescriptions } from 'redux/reducers/entity';
 import DataTable from 'components/elements/DataTable';
 
-function UserAdministration() {
+function AccountAdministration(ownProps) {
+  const {
+    modal: {
+      modalState: {
+        setTitle,
+        setActionButtonState,
+        setInitialValues,
+        setOpen,
+        setSize,
+        setComponent,
+        setHandleSubmit,
+      },
+      actionButtonDefaultState,
+    },
+  } = ownProps;
+
   const dispatch = useDispatch();
   const { account } = useSelector((state) => state.entities);
   const { t } = useTranslation();
@@ -19,6 +34,7 @@ function UserAdministration() {
         entityDescription: ACCOUNT,
       }),
     );
+    return () => console.log('AccountAdministration unmounted, useEffect clearup');
   }, [dispatch, ACCOUNT]);
 
   const cols = [
@@ -28,43 +44,50 @@ function UserAdministration() {
     { dataKey: 'email', name: 'E-Mail' },
   ];
 
-  const handleOnCreate = (event) => {
-    console.log(
-      '%c create button handler in accountAdmin',
-      'color: green;',
-      event,
-    );
-  };
-
-  const handleOnEdit = (row) => {
-    console.log(
-      '%c edit button handler in accountAdmin',
-      'color: orange;',
-      row,
-    );
-  };
-
-  const handleOnDelete = (row) => {
-    console.log('%c delete button handler in accountAdmin', 'color: red;', row);
-  };
+  const component = 'AccountAdministrationForm';
 
   return (
-    <div className="padding-top">
-      <Header
-        as="h2"
-        content={t(`backend.menu.${ACCOUNT.toLowerCase()}.label`)}
-      />
+    <React.Fragment>
+      <Header as="h2" content={t(`backend.menu.${ACCOUNT.toLowerCase()}.label`)} />
       <Divider />
       <DataTable
         cols={cols}
         rows={account.content}
-        sortable
-        onCreate={handleOnCreate}
-        onEdit={handleOnEdit}
-        onDelete={handleOnDelete}
+        onCreate={() => {
+          setSize('large');
+          setTitle(t('form-entities:account.crud.add'));
+          setComponent(component);
+          setInitialValues({});
+          setActionButtonState(actionButtonDefaultState);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(
+                action(`${CREATE}_${ACCOUNT}`, { entityDescription: ACCOUNT, body: fields }),
+              ),
+          });
+          setOpen(true);
+        }}
+        onEdit={(row) => {
+          setSize('large');
+          setTitle(t('form-entities:account.crud.edit', { name: row.email }));
+          setComponent(component);
+          setActionButtonState(actionButtonDefaultState);
+          setInitialValues(row);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(
+                action(`${UPDATE}_${ACCOUNT}`, {
+                  entityDescription: ACCOUNT,
+                  body: fields,
+                }),
+              ),
+          });
+          setOpen(true);
+        }}
+        onDelete={(row) => console.log(row)}
       />
-    </div>
+    </React.Fragment>
   );
 }
 
-export default UserAdministration;
+export default AccountAdministration;

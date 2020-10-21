@@ -9,7 +9,6 @@ import {
   LOGOUT,
   FETCH_OWN_ACCOUNT,
   requestOwnAccount,
-  // PATCH_OWN_ACCOUNT,
   failurePatchAccount,
   successPatchAccount,
   ACCOUNT_PATCH,
@@ -20,10 +19,20 @@ import {
   login,
   logout,
 } from 'services/ownAccount';
+import { EntityDescriptions } from 'redux/reducers/entity';
+import { FETCH } from 'redux/actions';
 
 /********************************************************/
 /********************** SAGA WORKERS ********************/
 /********************************************************/
+
+// On successfull login:
+//  - fetch own Account
+//  - fetch Entities:
+//      - account
+//      - team
+//      - room
+//  - redirect to /
 
 function* fetchAuthenticatedAccountWorker(action) {
   yield put(requestOwnAccount());
@@ -32,7 +41,14 @@ function* fetchAuthenticatedAccountWorker(action) {
   if (error) yield put(failureFetchOwnAccount(error));
   else yield put(successFetchOwnAccount(response));
 
-  if (action.type === LOGIN) yield put(push('/calendar'));
+  if (action.type === LOGIN) {
+    const { ACCOUNT, TEAM, ROOM } = EntityDescriptions;
+
+    yield put({ type: `${FETCH}_${ACCOUNT}`, entityDescription: ACCOUNT });
+    yield put({ type: `${FETCH}_${TEAM}`, entityDescription: TEAM });
+    yield put({ type: `${FETCH}_${ROOM}`, entityDescription: ROOM });
+    yield put(push('/'));
+  }
 }
 
 function* patchOwnAccountWorker(action) {

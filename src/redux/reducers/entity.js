@@ -8,7 +8,13 @@ import {
 } from 'redux/actions';
 
 function processReducers(state, action, reducerActions) {
-  console.log('%c process reducer', 'color: purple;', state, action);
+  console.log(
+    '%c process reducer',
+    'color: purple;',
+    state,
+    action,
+    reducerActions,
+  );
 
   switch (action.type) {
     case reducerActions.REQUEST:
@@ -48,6 +54,10 @@ export default function createReducers() {
   return reducers;
 }
 
+/**
+ * Creates a Reducer State Object for each Entity given.
+ * @param {String} name EntityDescription
+ */
 function createReducer(name) {
   const InitialState = {
     content: undefined,

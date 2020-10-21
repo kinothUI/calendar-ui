@@ -1,15 +1,15 @@
 import React from 'react';
-import { Sidebar, Menu, Divider } from 'semantic-ui-react';
+import { Sidebar as SemanticSidebar, Menu, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-function BackendSidebar(props) {
+function Sidebar(props) {
   const { t } = useTranslation();
 
   return (
     <React.Fragment>
       <Divider fitted />
-      <Sidebar
+      <SemanticSidebar
         as={Menu}
         width="thin"
         vertical
@@ -24,7 +24,7 @@ function BackendSidebar(props) {
             <Menu.Item as={Link} to="/backend/account" link>
               {t('backend.menu.account.label')}
             </Menu.Item>
-            <Menu.Item as={Link} to="/backend/group" link>
+            <Menu.Item as={Link} to="/backend/team" link>
               {t('backend.menu.team.label')}
             </Menu.Item>
             <Menu.Item as={Link} to="/backend/room" link>
@@ -32,9 +32,9 @@ function BackendSidebar(props) {
             </Menu.Item>
           </Menu.Menu>
         </Menu.Item>
-      </Sidebar>
+      </SemanticSidebar>
     </React.Fragment>
   );
 }
 
-export default BackendSidebar;
+export default Sidebar;

@@ -1,0 +1,15 @@
+account:
+  label: 'Benutzer'
+  crud:
+    add: 'Neuen $t(form-entities:account.label) hinzufügen'
+    edit: '$t(form-entities:account.label) {{name}} bearbeiten'
+team:
+  label: 'Team'
+  crud:
+    add: 'Neues $t(form-entities:team.label) hinzufügen'
+    edit: '$t(form-entities:team.label) {{name}} bearbeiten'
+room:
+  label: 'Besprechungsraum'
+  crud:
+    add: 'Neuen $t(form-entities:room.label) hinzufügen'
+    edit: '$t(form-entities:room.label) {{name}} bearbeiten'

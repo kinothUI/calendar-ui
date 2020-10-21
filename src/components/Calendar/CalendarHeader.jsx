@@ -1,19 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { Segment, Grid, Button, Header } from 'semantic-ui-react';
-
-import { ADD_MONTH, SUBTRACT_MONTH } from 'redux/actions/calender';
-import { action } from 'redux/actions';
+import moment from 'moment';
 
 // hier besteht theoretisch die möglichkeit, dass ein Monat übersprungen wird
 // könnte man mit "index-setzen" vorbeugen
 
-const CalenderHeader = (props) => {
-  const { calendar } = props;
+const CalenderHeader = (ownProps) => {
+  const { currentMoment } = ownProps;
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   return (
     <Segment>
@@ -22,19 +18,14 @@ const CalenderHeader = (props) => {
           <Button
             icon="angle left"
             circular
-            onClick={() =>
-              dispatch(
-                action(SUBTRACT_MONTH, {
-                  moment: calendar.content.currentMonth,
-                }),
-              )
-            }
+            color="olive"
+            onClick={() => currentMoment.setValue((old) => moment(old).subtract(1, 'months'))}
           />
         </Grid.Column>
         <Grid.Column textAlign="center">
           <Header
             content={t('format:longMonth', {
-              date: calendar.content.currentMonth,
+              date: currentMoment.value,
             })}
           />
         </Grid.Column>
@@ -42,11 +33,8 @@ const CalenderHeader = (props) => {
           <Button
             icon="angle right"
             circular
-            onClick={() =>
-              dispatch(
-                action(ADD_MONTH, { moment: calendar.content.currentMonth }),
-              )
-            }
+            color="olive"
+            onClick={() => currentMoment.setValue((old) => moment(old).add(1, 'months'))}
           />
         </Grid.Column>
       </Grid>

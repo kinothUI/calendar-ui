@@ -12,8 +12,12 @@ export const fetchAllByEntity = ({ entityDescription }) =>
  * @param {String} param0
  * @param {any} body
  */
-export const createByEntity = ({ entityDescription }, body) =>
-  callApi(`/api/entity/${entityDescription}`, HttpMethod.POST, body);
+export const createEntity = ({ entityDescription, body }) =>
+  callApi(
+    `/api/entity/${entityDescription.toLowerCase()}`,
+    HttpMethod.POST,
+    body,
+  );
 
 /**
  * Updates an existing Entity by Id
@@ -21,13 +25,20 @@ export const createByEntity = ({ entityDescription }, body) =>
  * @param {Number} id
  * @param {any} body
  */
-export const patchEntityById = ({ entityDescription }, id, body) =>
-  callApi(`/api/entity/${entityDescription}`, HttpMethod.PATCH, { id, body });
+export const patchEntity = ({ entityDescription, id, body }) =>
+  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.PATCH, {
+    id,
+    body,
+  });
 
 /**
  * Deletes an Entity by Id
  * @param {String} param0
  * @param {number} id
  */
-export const deleteEntityById = ({ entityDescription }, id) =>
-  callApi(`/api/entity/${entityDescription}`, HttpMethod.DELETE, id);
+export const deleteEntityById = ({ entityDescription, id }) =>
+  callApi(
+    `/api/entity/${entityDescription.toLowerCase()}`,
+    HttpMethod.DELETE,
+    id,
+  );

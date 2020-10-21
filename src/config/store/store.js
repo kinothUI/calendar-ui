@@ -3,4 +3,8 @@ import configureStore from 'config/store/configure-store';
 
 export const history = createHistory();
 
-export const store = configureStore(history);
+const persistStore = configureStore(history);
+
+export const { persistor } = persistStore;
+
+export default persistStore.store;

@@ -24,3 +24,7 @@ auth:
 language:
   de: 'Deutsch'
   en: 'English'
+page:
+  not_found: 'Seite nicht gefunden'
+  calendar:
+    create: 'neuen Termin anlegen'

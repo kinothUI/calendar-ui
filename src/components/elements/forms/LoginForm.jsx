@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Form, Segment, Button, Divider, Message, Grid, Icon } from 'semantic-ui-react';
+
 import { action } from 'redux/actions';
 import { LOGIN } from 'redux/actions/ownAccount';
-import {
-  Form,
-  Segment,
-  Button,
-  Divider,
-  Message,
-  Grid,
-  Icon,
-} from 'semantic-ui-react';
 
 const InitialState = {
   email: '',
@@ -25,8 +18,8 @@ const LoginForm = (props) => {
   const { t } = useTranslation('translations');
   const { ownAccount } = useSelector((state) => state);
 
-  const handleOnChange = (event) =>
-    setState({ ...state, [event.target.name]: event.target.value });
+  const handleOnChange = (event) => setState({ ...state, [event.target.name]: event.target.value });
+
   const handleSubmit = () => {
     const { email, password } = state;
 
@@ -38,14 +31,8 @@ const LoginForm = (props) => {
 
   return (
     <React.Fragment>
-      <Grid
-        centered
-        verticalAlign="middle"
-        columns="2"
-        doubling
-        style={{ height: '70vh' }}
-      >
-        <Grid.Column width="5">
+      <Grid centered verticalAlign="middle" columns="1" doubling style={{ height: '70vh' }}>
+        <Grid.Column width="8">
           <Segment padded attached="top">
             <Form autoComplete="off" onSubmit={handleSubmit}>
               <Form.Input
@@ -76,7 +63,6 @@ const LoginForm = (props) => {
           {statusMsg}
         </Grid.Column>
       </Grid>
-      <div style={{ minHeight: '15vh' }}></div>
     </React.Fragment>
   );
 };

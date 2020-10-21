@@ -53,7 +53,7 @@ const renderTableBody = (cols, rows, callbackButtons) => {
                   <Button
                     icon="trash"
                     color="red"
-                    onClick={() => callbackButtons.onDelete(row)}
+                    onClick={() => callbackButtons.onDelete(row, 'delete')}
                     basic
                   />
                 )}
@@ -61,7 +61,7 @@ const renderTableBody = (cols, rows, callbackButtons) => {
                   <Button
                     icon="edit"
                     color="orange"
-                    onClick={() => callbackButtons.onEdit(row)}
+                    onClick={() => callbackButtons.onEdit(row, 'update')}
                     basic
                   />
                 )}
@@ -93,7 +93,7 @@ const renderTableFoot = (rows, cols, callbackButtons) => {
             color="green"
             size="mini"
             floated="left"
-            onClick={callbackButtons.onCreate}
+            onClick={() => callbackButtons.onCreate(null, 'create')}
           />
         </Table.HeaderCell>
       </Table.Row>

@@ -5,20 +5,18 @@ import {
   fetchOwnAccountWatcher,
   patchOwnAccountWatcher,
 } from 'redux/sagas/ownAccount';
-
+import { createNewMeetingSagaWatcher, createSaveMeetingSagaWatcher } from 'redux/sagas/meeting';
 import {
   FETCH,
   CREATE,
   UPDATE,
   DELETE,
-  // REQUEST,
   createFetchEntityAction,
   createSuccessFetchEntityAction,
-  // createSuccessDeleteEntityAction,
   createFailureEntityAction,
 } from 'redux/actions';
 import { EntityDescriptions } from 'redux/reducers/entity';
-import { fetchAllByEntity } from 'services/entity';
+import { fetchAllByEntity, createEntity } from 'services/entity';
 
 export default function* rootSaga() {
   yield all(combineWatchers());
@@ -29,28 +27,32 @@ export default function* rootSaga() {
 /************************************************************************************************/
 
 function* deleteByEntityWoker(entityDescription) {
-  yield console.log(
-    'entityDescription in createEntityWorker',
-    entityDescription,
-  );
+  yield console.log('entityDescription in createEntityWorker', entityDescription);
 }
 
 function* updateByEntityWorker(entityDescription) {
-  yield console.log(
-    'entityDescription in createEntityWorker',
-    entityDescription,
-  );
+  yield console.log('entityDescription in createEntityWorker', entityDescription);
 }
 
+/**
+ * creates an entity worker saga that sends corresponding fields as body
+ * to the backend and fetches all entities upon success.
+ */
 function* createByEntityWorker(entityDescription) {
-  yield console.log(
-    'entityDescription in createEntityWorker',
-    entityDescription,
-  );
+  console.log('entityDescription in createEntityWorker', entityDescription);
+
+  yield put(createFetchEntityAction(entityDescription));
+
+  const { error } = yield call(createEntity, entityDescription);
+
+  if (error) yield put(createFailureEntityAction(error, entityDescription));
+  else yield call(fetchByEntityWorker, entityDescription);
 }
 
 function* fetchByEntityWorker(entityDescription) {
   yield put(createFetchEntityAction(entityDescription));
+
+  console.log('fetchByEntityWorker entityDescription', entityDescription);
 
   const { response, error } = yield call(fetchAllByEntity, entityDescription);
 
@@ -95,6 +97,8 @@ function combineWatchers() {
   watchers.push(call(logoutWatcher));
   watchers.push(call(fetchOwnAccountWatcher));
   watchers.push(call(patchOwnAccountWatcher));
+  watchers.push(call(createNewMeetingSagaWatcher));
+  watchers.push(call(createSaveMeetingSagaWatcher));
 
   return watchers;
 }

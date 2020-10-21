@@ -18,19 +18,23 @@
   height: 30.08px;
 }
 
-.ui.menu .item.no-padding {
+.ui.menu:not(.vertical) .right.item.no-padding-margin {
+  margin: 0 !important;
   padding: 0 !important;
 }
 
-.brand-button-container {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+.ui.container.backend-container {
+  margin-left: calc(var(auto) + 200px) !important;
+  margin-top: calc(var(auto) + 50px) !important;
 }
 
-.brand-button {
-  background-image: url(/public/brand-button.png);
-  height: 100%;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+/* remove require asterisk */
+.ui.form .required.field > .checkbox.remove-require:after {
+  content: '';
+}
+
+/* custom border for calendar grid */
+.ui.celled.grid.custom-border {
+  background: white;
+  border-radius: 0.28571429rem;
 }

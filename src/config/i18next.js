@@ -34,7 +34,7 @@ i18next
       lookupCookie: LOCALE_COOKIE,
     },
     debug: process.env.NODE_ENV !== 'production',
-    ns: ['translations', 'format'],
+    ns: ['translations', 'format', 'form-entities'],
     defaultNS: 'translations',
     react: {
       wait: true, // Wait until loaded in every translated HOC

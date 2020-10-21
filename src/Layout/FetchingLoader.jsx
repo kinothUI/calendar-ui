@@ -13,7 +13,7 @@ function FetchingLoader(props) {
     <Dimmer active={active} page inverted>
       <Loader size="large">
         <Label circular basic size="large" color="grey">
-          {t(`backend.menu.${fetchingEntity}.label`)}
+          {active && t(`backend.menu.${fetchingEntity}.label`)}
         </Label>
       </Loader>
     </Dimmer>

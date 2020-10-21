@@ -1,19 +1,38 @@
+body {
+  background: #eef2f7 !important;
+}
+
 .main-content {
   display: flex;
 
   min-height: 100vh;
 
   justify-content: center;
-  align-items: center;
 }
 
-.pre-main-min-height {
-  min-height: calc(10vh - 100px);
-  padding-top: 100px;
+.pre-main-content {
+  padding-top: 50px;
 }
 
 .padding-top {
   padding-top: 25px;
+}
+
+.padding-bottom {
+  padding-bottom: 75px;
+}
+
+.brand-button-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.brand-button {
+  width: 100px;
+  height: 100% !important;
+  background-image: url(/brand-button.png);
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
 }
 
 .calendar-day {
@@ -23,17 +42,34 @@
   font-size: 0.9em;
   font-weight: 700;
   background: #ababab3b;
+  border: 1px solid transparent;
   padding: 0.4em;
   text-align: center;
   border-radius: 50%;
+  transition: all 0.1s ease;
+}
+
+.calendar-day.today {
+  background: #b5cc18;
+}
+
+.calendar-day:hover {
+  cursor: pointer;
+  background: #ababab6c;
+}
+
+.calendar-day.past:hover {
+  cursor: default;
+}
+
+.calendar-day.today:hover {
+  background: #a7bd0d;
 }
 
 .ui.visible.left.overlay.sidebar.position-top {
   top: auto;
 }
 
-.backend-main-content {
-  position: relative;
-  left: 100px;
-  top: 50px;
+.ui.label.password-icon > .icon.unhide {
+  margin: 0 !important;
 }

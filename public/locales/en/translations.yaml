@@ -24,3 +24,7 @@ auth:
 language:
   de: 'German'
   en: 'English'
+page:
+  not_found: 'This is not the page you are looking for.'
+  calendar:
+    create: 'make new appointment'

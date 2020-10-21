@@ -9,23 +9,11 @@ export const SUCCESS_DELETE = 'SUCCESS_DELETE';
 export const NOT_MODIFIED = 'NOT_MODIFIED';
 export const FAILURE = 'FAILURE';
 
-export const createFetchEntityAction = ({ entityDescription }) => {
-  console.log('entityDescription in fetchEntity()', entityDescription);
-  return action(`${entityDescription}_${REQUEST}`);
-};
+export const createFetchEntityAction = ({ entityDescription }) =>
+  action(`${entityDescription}_${REQUEST}`);
 
-export const createSuccessFetchEntityAction = (
-  response,
-  { entityDescription },
-) => {
-  console.log(
-    'entityDescription in createSuccessFetchEntityAction',
-    entityDescription,
-  );
-  return action(`${entityDescription}_${SUCCESS_FETCH}`, { response });
-};
-
-// export const createNotModifiedEntityAction () =>
+export const createSuccessFetchEntityAction = (response, { entityDescription }) =>
+  action(`${entityDescription}_${SUCCESS_FETCH}`, { response });
 
 export const createFailureEntityAction = (error, { entityDescription }) =>
   action(`${entityDescription}_${FAILURE}`, { error });

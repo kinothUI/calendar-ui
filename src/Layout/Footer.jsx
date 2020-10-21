@@ -3,7 +3,7 @@ import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 // import { useTranslation } from 'react-i18next';
 // import { languageOptions } from 'config/i18next';
 
-const DefaultFooter = () => {
+const Footer = () => {
   const brandIcons = ['twitter', 'github'];
   // const { t, i18n } = useTranslation();
   // const language = i18n.language;
@@ -42,4 +42,4 @@ const DefaultFooter = () => {
   );
 };
 
-export default DefaultFooter;
+export default Footer;

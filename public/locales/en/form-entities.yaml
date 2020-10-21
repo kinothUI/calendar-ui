@@ -1,0 +1,15 @@
+account:
+  label: 'User'
+  crud:
+    add: 'Add new $t(form-entities:account.label)'
+    patch: 'Edit $t(form-entities:account.label) {{name}}'
+team:
+  label: 'Team'
+  crud:
+    add: 'Add new $t(form-entities:team.label)'
+    edit: 'Edit $t(form-entities:team.label) {{name}}'
+room:
+  label: 'Meeting-Room'
+  crud:
+    add: 'Add new $t(form-entities:room.label)'
+    edit: 'Edit $t(form-entities:room.label) {{name}}'

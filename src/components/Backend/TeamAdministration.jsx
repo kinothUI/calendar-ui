@@ -1,13 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header, Divider } from 'semantic-ui-react';
-import { action, FETCH } from 'redux/actions';
-import { EntityDescriptions } from 'redux/reducers/entity';
 import { useTranslation } from 'react-i18next';
 
+import { EntityDescriptions } from 'redux/reducers/entity';
+import { action, FETCH, CREATE, UPDATE } from 'redux/actions';
 import DataTable from 'components/elements/DataTable';
 
-function TeamAdministration() {
+function TeamAdministration(ownProps) {
+  const {
+    modal: {
+      modalState: {
+        setTitle,
+        setActionButtonState,
+        setInitialValues,
+        setOpen,
+        setSize,
+        setComponent,
+        setHandleSubmit,
+      },
+      actionButtonDefaultState,
+    },
+  } = ownProps;
+
   const dispatch = useDispatch();
   const { team } = useSelector((state) => state.entities);
   const { t } = useTranslation();
@@ -19,19 +34,8 @@ function TeamAdministration() {
         entityDescription: TEAM,
       }),
     );
+    return () => console.log('TeamAdministration unmounted, useEffect clearup function');
   }, [dispatch, TEAM]);
-
-  const handleOnCreate = (event) => {
-    console.log(
-      '%c create button handler in teamAdmin',
-      'color: green;',
-      event,
-    );
-  };
-
-  const handleOnEdit = (row) => {
-    console.log('%c edit button handler in teamAdmin', 'color: orange;', row);
-  };
 
   const handleOnDelete = (row) => {
     console.log('%c delete button handler in teamAdmin', 'color: red;', row);
@@ -42,18 +46,42 @@ function TeamAdministration() {
     { dataKey: 'name', name: 'Team-Name' },
   ];
 
+  const component = 'TeamAdministrationForm';
+
   return (
-    <div className="padding-top">
+    <React.Fragment>
       <Header as="h2" content={t(`backend.menu.${TEAM.toLowerCase()}.label`)} />
       <Divider />
       <DataTable
         cols={cols}
         rows={team.content}
-        onCreate={handleOnCreate}
-        onEdit={handleOnEdit}
+        onCreate={() => {
+          setSize('large');
+          setTitle(t('form-entities:team.crud.add'));
+          setComponent(component);
+          setInitialValues({});
+          setActionButtonState(actionButtonDefaultState);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(action(`${CREATE}_${TEAM}`, { entityDescription: TEAM, body: fields })),
+          });
+          setOpen(true);
+        }}
+        onEdit={(row) => {
+          setSize('large');
+          setTitle(t('form-entities:team.crud.edit', { name: row.name }));
+          setComponent(component);
+          setInitialValues(row);
+          setActionButtonState(actionButtonDefaultState);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(action(`${UPDATE}_${TEAM}`, { entityDescription: TEAM, body: fields })),
+          });
+          setOpen(true);
+        }}
         onDelete={handleOnDelete}
       />
-    </div>
+    </React.Fragment>
   );
 }
 

@@ -1,13 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { action, FETCH } from 'redux/actions';
-import { EntityDescriptions } from 'redux/reducers/entity';
 import { Header, Divider } from 'semantic-ui-react';
 
+import { EntityDescriptions } from 'redux/reducers/entity';
+import { action, CREATE, FETCH, UPDATE } from 'redux/actions';
 import DataTable from 'components/elements/DataTable';
 
-function RoomAdministration() {
+function RoomAdministration(ownProps) {
+  const {
+    modal: {
+      modalState: {
+        setTitle,
+        setActionButtonState,
+        setInitialValues,
+        setOpen,
+        setSize,
+        setComponent,
+        setHandleSubmit,
+      },
+      actionButtonDefaultState,
+    },
+  } = ownProps;
+
   const dispatch = useDispatch();
   const { room } = useSelector((state) => state.entities);
   const { t } = useTranslation();
@@ -19,19 +34,8 @@ function RoomAdministration() {
         entityDescription: ROOM,
       }),
     );
+    return () => console.log('RoomAdministration unmounted, useEffect clearup function');
   }, [dispatch, ROOM]);
-
-  const handleOnCreate = (event) => {
-    console.log(
-      '%c create button handler in roomAdmin',
-      'color: green;',
-      event,
-    );
-  };
-
-  const handleOnEdit = (row) => {
-    console.log('%c edit button handler in roomAdmin', 'color: orange;', row);
-  };
 
   const handleOnDelete = (row) => {
     console.log('%c delete button handler in roomAdmin', 'color: red;', row);
@@ -42,18 +46,42 @@ function RoomAdministration() {
     { dataKey: 'name', name: 'Besprechungsraum-Name' },
   ];
 
+  const component = 'RoomAdministrationForm';
+
   return (
-    <div className="padding-top">
+    <React.Fragment>
       <Header as="h2" content={t(`backend.menu.${ROOM.toLowerCase()}.label`)} />
       <Divider />
       <DataTable
         cols={cols}
         rows={room.content}
-        onCreate={handleOnCreate}
-        onEdit={handleOnEdit}
+        onCreate={() => {
+          setSize('large');
+          setTitle(t('form-entities:room.crud.add'));
+          setComponent(component);
+          setInitialValues({});
+          setActionButtonState(actionButtonDefaultState);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(action(`${CREATE}_${ROOM}`, { entityDescription: ROOM, body: fields })),
+          });
+          setOpen(true);
+        }}
+        onEdit={(row) => {
+          setSize('large');
+          setTitle(t('form-entities:room.crud.edit', { name: row.name }));
+          setComponent(component);
+          setInitialValues(row);
+          setActionButtonState(actionButtonDefaultState);
+          setHandleSubmit({
+            form: (fields) =>
+              dispatch(action(`${UPDATE}_${ROOM}`, { entityDescription: ROOM, body: fields })),
+          });
+          setOpen(true);
+        }}
         onDelete={handleOnDelete}
       />
-    </div>
+    </React.Fragment>
   );
 }
 

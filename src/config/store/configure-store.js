@@ -3,9 +3,17 @@ import { createLogger } from 'redux-logger';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-import rootReducer from '../../redux/reducers';
-import rootSaga from '../../redux/sagas';
+import rootReducer from 'redux/reducers/index';
+import rootSaga from 'redux/sagas/index';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['ownAccount', 'entities'],
+};
 
 /**
  * configures redux-store depending on environment
@@ -20,7 +28,9 @@ export default function configureStore(history) {
 
   sagaMiddleware.run(rootSaga);
 
-  return store;
+  const persistor = persistStore(store);
+
+  return { store, persistor };
 }
 
 /**
@@ -30,7 +40,7 @@ const configureProductionStore = (sagaMiddleware, history) => {
   console.log('configure production store');
 
   return createStore(
-    rootReducer(history),
+    persistReducer(persistConfig, rootReducer(history)),
     applyMiddleware(sagaMiddleware, routerMiddleware(history)),
   );
 };
@@ -49,7 +59,7 @@ const configureDevStore = (sagaMiddleware, history) => {
   });
 
   return createStore(
-    rootReducer(history),
+    persistReducer(persistConfig, rootReducer(history)),
     composeWithDevTools(
       applyMiddleware(sagaMiddleware, logger, routerMiddleware(history)),
     ),
