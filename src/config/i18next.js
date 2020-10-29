@@ -5,6 +5,7 @@ import Backend from 'i18next-xhr-backend';
 import yaml from 'js-yaml';
 import moment from 'moment';
 import 'moment/locale/de';
+import Cookie from 'js-cookie';
 
 const LANGUAGES = ['de', 'en'];
 const FALLBACK_LANGUAGE = 'de';
@@ -16,9 +17,12 @@ const format = (value, formatString, lng) => {
   else return value;
 };
 
-const onLanguageChange = (language) => {
-  console.log('%c local in onLanguageChange()', 'color: purple;', language);
-  moment.locale(language);
+const onLanguageChange = (selected) => {
+  console.log('%c local in onLanguageChange()', 'color: purple;', selected);
+
+  const lang = extractLanguage(selected);
+  moment.locale(lang);
+  Cookie.set(LOCALE_COOKIE, lang);
 };
 
 i18next

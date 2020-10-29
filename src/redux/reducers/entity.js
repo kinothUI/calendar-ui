@@ -1,31 +1,34 @@
 import _ from 'lodash';
-import {
-  REQUEST,
-  SUCCESS_FETCH,
-  SUCCESS_DELETE,
-  NOT_MODIFIED,
-  FAILURE,
-} from 'redux/actions';
+import { REQUEST, SUCCESS_FETCH, SUCCESS_DELETE, NOT_MODIFIED, FAILURE } from 'redux/actions';
+import HttpStatus from 'http-status-codes';
 
 function processReducers(state, action, reducerActions) {
-  console.log(
-    '%c process reducer',
-    'color: purple;',
-    state,
-    action,
-    reducerActions,
-  );
+  console.log('%c process reducer', 'color: purple;', state, action, reducerActions);
 
   switch (action.type) {
     case reducerActions.REQUEST:
       return _.assign({}, state, { isFetching: true, error: undefined });
 
     case reducerActions.SUCCESS_FETCH:
-      return _.assign({}, state, {
-        isFetching: false,
-        content: action.response,
-        error: undefined,
-      });
+      if (action.response.status === HttpStatus.NO_CONTENT)
+        return _.assign({}, state, { isFetching: false });
+      else
+        return _.assign({}, state, {
+          isFetching: false,
+          content: action.response,
+          error: undefined,
+        });
+
+    case reducerActions.SUCCESS_DELETE:
+      const content = state.content.slice(0, state.content.length);
+      const indexOfId = content.findIndex((item) => item.id === action.id);
+
+      if (indexOfId !== -1) content.splice(indexOfId, 1);
+
+      return _.assign({}, state, { isFetching: false, content });
+
+    case reducerActions.NOT_MODIFIED:
+      return _.assign({}, state, { isFetching: false });
 
     case reducerActions.FAILURE:
       return _.assign({}, state, { isFetching: false, error: action.error });

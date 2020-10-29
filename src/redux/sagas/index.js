@@ -14,9 +14,12 @@ import {
   createFetchEntityAction,
   createSuccessFetchEntityAction,
   createFailureEntityAction,
+  deleteFetchEntityAction,
+  deleteSuccessFetchEntityAction,
+  deleteFailureFetchEntityAction,
 } from 'redux/actions';
 import { EntityDescriptions } from 'redux/reducers/entity';
-import { fetchAllByEntity, createEntity } from 'services/entity';
+import { fetchAllByEntity, createEntity, deleteEntityById } from 'services/entity';
 
 export default function* rootSaga() {
   yield all(combineWatchers());
@@ -26,8 +29,20 @@ export default function* rootSaga() {
 /****************************************** SAGA WORKERS ****************************************/
 /************************************************************************************************/
 
-function* deleteByEntityWoker(entityDescription) {
-  yield console.log('entityDescription in createEntityWorker', entityDescription);
+function* deleteByEntityWoker(action) {
+  console.log('action in createEntityWorker', action);
+  const { id, entityDescription } = action;
+
+  yield put(deleteFetchEntityAction(action));
+
+  const { error } = yield call(deleteEntityById, action);
+
+  if (error)
+    yield call(deleteFailureFetchEntityAction, {
+      error,
+      entityDescription: action.entityDescription,
+    });
+  else yield put(deleteSuccessFetchEntityAction(entityDescription, id));
 }
 
 function* updateByEntityWorker(entityDescription) {

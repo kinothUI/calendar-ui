@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CalenderFooter = () => {
+const CalendarFooter = () => {
   return <div>Calendar Footer</div>;
 };
 
-export default CalenderFooter;
+export default CalendarFooter;

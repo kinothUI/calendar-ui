@@ -7,12 +7,14 @@ function DataTable(props) {
   const callbackButtons = { onCreate, onDelete, onEdit };
   const tableRows = (rows && rows) || [];
 
+  console.log('tableRows', tableRows);
+
   return (
     <React.Fragment>
       <Divider hidden />
       <Table compact="very" unstackable singleLine celled sortable={sortable}>
         {renderTableHead(cols, callbackButtons)}
-        {renderTableBody(cols, tableRows, callbackButtons)}
+        {!!tableRows.length && renderTableBody(cols, tableRows, callbackButtons)}
         {renderTableFoot(tableRows, cols, callbackButtons)}
       </Table>
     </React.Fragment>

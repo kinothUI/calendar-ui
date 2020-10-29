@@ -38,3 +38,43 @@
   background: white;
   border-radius: 0.28571429rem;
 }
+
+/* validation label */
+label > .text.red {
+  float: right;
+}
+
+/* Language Dropdown */
+.ui.selection.dropdown.language-dropdown {
+  background: #1b1c1d;
+  min-width: 0em;
+  transition: border 0.2s ease-in-out, background-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.ui.selection.dropdown.language-dropdown.footer {
+  border: 1px solid #333;
+}
+
+.ui.selection.dropdown.language-dropdown:hover,
+.ui.selection.dropdown.language-dropdown:hover .menu,
+.ui.selection.active.dropdown.language-dropdown:hover,
+.ui.selection.active.dropdown.language-dropdown,
+.ui.selection.dropdown.language-dropdown:focus {
+  border-color: #333 !important;
+  border: 1px solid #333;
+  background-color: #38383a;
+}
+
+.ui.selection.active.dropdown.language-dropdown .menu {
+  background-color: #38383a;
+  border: 1px solid #333;
+}
+
+.ui.selection.dropdown.language-dropdown .menu > .item {
+  border-top: none;
+}
+
+.ui.inverted.menu .header.item.no-margin-left {
+  margin-left: 0 !important;
+}

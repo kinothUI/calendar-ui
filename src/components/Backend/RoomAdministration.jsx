@@ -1,25 +1,23 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Header, Divider } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 import { EntityDescriptions } from 'redux/reducers/entity';
-import { action, CREATE, FETCH, UPDATE } from 'redux/actions';
+import { action, CREATE, DELETE, FETCH, UPDATE } from 'redux/actions';
 import DataTable from 'components/elements/DataTable';
+import RoomAdministrationForm from 'components/Backend/RoomAdministrationForm';
 
 function RoomAdministration(ownProps) {
   const {
-    modal: {
-      modalState: {
-        setTitle,
-        setActionButtonState,
-        setInitialValues,
-        setOpen,
-        setSize,
-        setComponent,
-        setHandleSubmit,
-      },
-      actionButtonDefaultState,
+    modalState: {
+      setTitle,
+      setOpen,
+      setSize,
+      setChildComponent,
+      setChildComponentProps,
+      setOnProceed,
+      setFormName,
     },
   } = ownProps;
 
@@ -34,52 +32,62 @@ function RoomAdministration(ownProps) {
         entityDescription: ROOM,
       }),
     );
-    return () => console.log('RoomAdministration unmounted, useEffect clearup function');
+    return () => console.log('RoomAdministration unmounted, useEffect cleanup function');
   }, [dispatch, ROOM]);
 
-  const handleOnDelete = (row) => {
-    console.log('%c delete button handler in roomAdmin', 'color: red;', row);
-  };
+  const transKeySelf = `${ROOM.toLowerCase()}_administration`;
 
   const cols = [
-    { dataKey: 'id', name: 'Kennzeichzen' },
-    { dataKey: 'name', name: 'Besprechungsraum-Name' },
+    { dataKey: 'id', name: t('form-entities:table.identifier') },
+    { dataKey: 'name', name: t(`form-entities:${transKeySelf}.table.name`) },
   ];
-
-  const component = 'RoomAdministrationForm';
 
   return (
     <React.Fragment>
-      <Header as="h2" content={t(`backend.menu.${ROOM.toLowerCase()}.label`)} />
-      <Divider />
+      <Header as="h2" content={t(`backend.menu.room.label`)} />
       <DataTable
         cols={cols}
         rows={room.content}
         onCreate={() => {
           setSize('large');
-          setTitle(t('form-entities:room.crud.add'));
-          setComponent(component);
-          setInitialValues({});
-          setActionButtonState(actionButtonDefaultState);
-          setHandleSubmit({
-            form: (fields) =>
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.add`));
+          setChildComponent({ component: RoomAdministrationForm });
+          setChildComponentProps({
+            handleSubmit: (fields) =>
               dispatch(action(`${CREATE}_${ROOM}`, { entityDescription: ROOM, body: fields })),
+            isCreate: true,
           });
+          setFormName('RoomAdministrationForm');
           setOpen(true);
         }}
         onEdit={(row) => {
           setSize('large');
-          setTitle(t('form-entities:room.crud.edit', { name: row.name }));
-          setComponent(component);
-          setInitialValues(row);
-          setActionButtonState(actionButtonDefaultState);
-          setHandleSubmit({
-            form: (fields) =>
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.edit`, { name: row.name }));
+          setChildComponent({ component: RoomAdministrationForm });
+          setChildComponentProps({
+            handleSubmit: (fields) =>
               dispatch(action(`${UPDATE}_${ROOM}`, { entityDescription: ROOM, body: fields })),
+            isCreate: false,
+            initialValues: row,
           });
+          setFormName('RoomAdministrationForm');
           setOpen(true);
         }}
-        onDelete={handleOnDelete}
+        onDelete={({ name, id }) => {
+          setSize('tiny');
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.delete`));
+          setChildComponent({
+            component: t(`form-entities:${transKeySelf}.modal.body.delete`, {
+              name,
+            }),
+          });
+          setOnProceed({
+            proceedAction: () =>
+              dispatch(action(`${DELETE}_${ROOM}`, { entityDescription: ROOM, id })),
+          });
+          setFormName(false);
+          setOpen(true);
+        }}
       />
     </React.Fragment>
   );

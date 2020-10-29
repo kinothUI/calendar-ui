@@ -1,16 +1,20 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
-function SelectField(props) {
-  const { input, meta, multiSelect, ...rest } = props;
+import { getValidationLabelProps } from 'components/elements/inputs/ValidationLabelProps';
+
+function SelectField(ownProps) {
+  const { input, meta, label, multiSelect, ...rest } = ownProps;
   const handleOnChange = (event, data) => input.onChange(data.value);
+
+  const validationLabelProps = getValidationLabelProps(meta, label);
+
   return (
     <Form.Select
-      value={input.value}
-      // value={typeof input.value === 'string' ? [] : input.value}
       onChange={handleOnChange}
       multiple={multiSelect}
-      error={meta.error}
+      label={validationLabelProps.label}
+      error={validationLabelProps.isError}
       selection
       {...rest}
     />

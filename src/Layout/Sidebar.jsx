@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sidebar as SemanticSidebar, Menu, Divider } from 'semantic-ui-react';
+import { Sidebar as SemanticSidebar, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -8,7 +8,6 @@ function Sidebar(props) {
 
   return (
     <React.Fragment>
-      <Divider fitted />
       <SemanticSidebar
         as={Menu}
         width="thin"

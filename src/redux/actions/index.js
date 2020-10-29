@@ -18,6 +18,15 @@ export const createSuccessFetchEntityAction = (response, { entityDescription }) 
 export const createFailureEntityAction = (error, { entityDescription }) =>
   action(`${entityDescription}_${FAILURE}`, { error });
 
+export const deleteFetchEntityAction = ({ entityDescription }) =>
+  action(`${entityDescription}_${DELETE}`);
+
+export const deleteSuccessFetchEntityAction = (entityDescription, id) =>
+  action(`${entityDescription}_${SUCCESS_DELETE}`, { entityDescription, id });
+
+export const deleteFailureFetchEntityAction = ({ error, entityDescription }) =>
+  action(`${entityDescription}_${FAILURE}`, { error });
+
 /**
  * Helper function to produce the right shape of a reducer action.
  */

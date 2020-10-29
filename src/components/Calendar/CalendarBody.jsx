@@ -7,20 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { action } from 'redux/actions';
 import { REQUEST_SAVE } from 'redux/actions/meeting';
 import { getNextHourMoment } from 'helpers';
-import { generateActionButtonState } from 'hooks/withModal';
+import MeetingForm from 'components/elements/forms/MeetingForm';
 
 const CalenderBody = (ownProps) => {
-  console.log('ownProps in CalendarBody render()', ownProps);
-  const { currentMoment, modal } = ownProps;
+  const { currentMoment, modalState } = ownProps;
   const {
     setTitle,
-    setActionButtonState,
-    setInitialValues,
     setOpen,
     setSize,
-    setComponent,
-    setHandleSubmit,
-  } = modal;
+    setChildComponent,
+    setChildComponentProps,
+    setFormName,
+  } = modalState;
 
   const { meeting } = useSelector((state) => state);
 
@@ -45,22 +43,15 @@ const CalenderBody = (ownProps) => {
   }
 
   const handleOnClick = (day) => {
-    const form = 'MeetingForm';
-
-    const actionButtonDefaultState = generateActionButtonState({
-      save: () => {
-        document.getElementById(form).dispatchEvent(new Event('submit', { cancelable: true }));
-        setOpen(false);
-      },
-      cancel: () => setOpen(false),
-    });
-
     setSize('mini');
-    setTitle('neues Meeting anlegen');
-    setComponent(form);
-    setInitialValues({ time: getNextHourMoment(day) });
-    setActionButtonState(actionButtonDefaultState);
-    setHandleSubmit({ form: (fields) => dispatch(action(`${REQUEST_SAVE}`, { meeting: fields })) });
+    setTitle(t('form-entities:meeting.header'));
+    setChildComponent({ component: MeetingForm });
+    setChildComponentProps({
+      initialValues: { time: getNextHourMoment(day) },
+      handleSubmit: (fields) => dispatch(action(`${REQUEST_SAVE}`, { meeting: fields })),
+      modalState,
+    });
+    setFormName('MeetingForm');
     setOpen(true);
   };
 
@@ -146,7 +137,7 @@ const renderWeekDays = (week, t, firstDayOfMonth, nextMonthsFirstDay, handleOnCl
                   handleOnClick,
                   t,
                 )}
-                content={t('page.calendar.create')}
+                content={t('calendar.popup')}
               />
             )}
           </Grid.Column>

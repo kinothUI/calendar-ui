@@ -9,6 +9,8 @@ import moment from 'moment';
  * otherwise adds an hour and rounds down.
  *
  * Additionally set's time to 08:00 AM when moment is not today
+ *
+ * !!! NOCHMAL ÜBERDENKEN !!!
  */
 export const getNextHourMoment = (date) => {
   const value = moment(date);

@@ -1,49 +1,95 @@
 import React, { useState, useMemo } from 'react';
-import { Button, Modal as SemanticModal } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
+import { Button, Modal as SemanticModal, Header, Icon } from 'semantic-ui-react';
 
-export const generateActionButtonState = ({ save: onProceede, cancel: onClose }) => ({
-  save: {
-    color: 'green',
-    content: 'Speichern',
-    icon: 'save',
-    basic: true,
-    size: 'tiny',
-    onClick: onProceede,
+const getOnProceedDefaultProps = (formName, setOpen, t) => ({
+  content: t('form-entities:buttons.save'),
+  icon: 'save',
+  size: 'tiny',
+  color: 'green',
+  basic: true,
+  onClick: () => {
+    document.getElementById(formName).dispatchEvent(new Event('submit', { cancelable: true }));
+    setOpen(false);
   },
-  cancel: {
-    color: 'red',
-    content: 'Abbrechen',
-    icon: 'cancel',
-    basic: true,
-    size: 'tiny',
-    onClick: onClose,
+});
+
+const getOnCloseDefaultProps = (setOpen, t) => ({
+  content: t('form-entities:buttons.cancel'),
+  icon: 'cancel',
+  size: 'tiny',
+  color: 'red',
+  basic: true,
+  onClick: () => setOpen(false),
+});
+
+const getOnProceedDeleteModalProps = (setOpen, { proceedAction }, t) => ({
+  content: t('form-entities:buttons.yes'),
+  icon: 'save',
+  color: 'green',
+  inverted: true,
+  onClick: () => {
+    proceedAction();
+    setOpen(false);
   },
+});
+
+const getOnCloseDeleteModalProps = (setOpen, t) => ({
+  content: t('form-entities:buttons.no'),
+  icon: 'remove',
+  color: 'red',
+  basic: true,
+  inverted: true,
+  onClick: () => setOpen(false),
 });
 
 /**
  * Custom Hook to use a Modal
  */
 export function useModal() {
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [size, setSize] = useState('large');
-  const [dimmer, setDimmer] = useState('blurring');
-  const [initialValues, setInitialValues] = useState({});
-  const [reduxAction, setReduxAction] = useState({});
-  const [component, setComponent] = useState('MeetingForm');
-  const [handleSubmit, setHandleSubmit] = useState({});
-
-  const abDefaultState = generateActionButtonState({
-    save: () => {},
-    close: () => {},
-  });
+  const [dimmer, setDimmer] = useState(true); // true | 'blurring' | 'inverted' | SemanticShorthandItem<ModalDimmerProps>
+  const [childComponent, setChildComponent] = useState({ component: '' });
+  const [childComponentProps, setChildComponentProps] = useState({ isCreate: true });
+  const [onProceed, setOnProceed] = useState({ proceedAction: () => {} });
+  const [formName, setFormName] = useState('');
 
   const [actionButtonState, setActionButtonState] = useState({
-    save: abDefaultState.save,
-    cancel: abDefaultState.cancel,
+    save: getOnProceedDefaultProps(formName, setOpen, t),
+    close: getOnCloseDefaultProps(setOpen, t),
   });
 
-  const Modal = useModalComponent(open, size, title, dimmer, actionButtonState);
+  /**
+   * Change Modal Actions apperance for Delete Dialogs
+   */
+  useMemo(() => {
+    if (formName) {
+      setActionButtonState({
+        save: getOnProceedDefaultProps(formName, setOpen, t),
+        close: getOnCloseDefaultProps(setOpen, t),
+      });
+    } else {
+      setActionButtonState({
+        save: getOnProceedDeleteModalProps(setOpen, onProceed, t),
+        close: getOnCloseDeleteModalProps(setOpen, t),
+      });
+    }
+  }, [formName]);
+
+  const Modal = useModalComponent(
+    open,
+    size,
+    title,
+    childComponent,
+    childComponentProps,
+    dimmer,
+    formName,
+    actionButtonState,
+  );
 
   return {
     modalState: {
@@ -55,34 +101,89 @@ export function useModal() {
       setSize,
       dimmer,
       setDimmer,
-      initialValues,
-      setInitialValues,
-      reduxAction,
-      setReduxAction,
-      component,
-      setComponent,
-      actionButtonState,
-      setActionButtonState,
-      handleSubmit,
-      setHandleSubmit,
+      childComponent,
+      setChildComponent,
+      childComponentProps,
+      setChildComponentProps,
+      onProceed,
+      setOnProceed,
+      formName,
+      setFormName,
     },
     Modal,
   };
 }
 
-function useModalComponent(open, size, title, dimmer, actionButtonState) {
+function useModalComponent(
+  open,
+  size,
+  title,
+  childComponent,
+  childComponentProps,
+  dimmer,
+  formName,
+  actionButtonState,
+) {
   const Modal = useMemo(
-    (modalOwnProps) => ({ children }) => (
-      <SemanticModal open={open} size={size} dimmer={dimmer}>
-        <SemanticModal.Header>{title}</SemanticModal.Header>
-        <SemanticModal.Content>{children}</SemanticModal.Content>
-        <SemanticModal.Actions>
-          <Button {...actionButtonState.save} /> <Button {...actionButtonState.cancel} />
-        </SemanticModal.Actions>
-      </SemanticModal>
-    ),
-    [open, size, title, actionButtonState, dimmer],
+    () => () => {
+      const {
+        open,
+        size,
+        dimmer,
+        title,
+        actionButtonState,
+        formName,
+        childComponent: { component },
+        childComponentProps,
+      } = Modal.props;
+
+      console.log('actionButtonState in useModalComponent', actionButtonState);
+
+      return (
+        <SemanticModal open={open} size={size} dimmer={dimmer} basic={formName ? false : true}>
+          {renderTitle(title, formName)}
+          <SemanticModal.Content>
+            {renderContent({ component, childComponentProps })}
+          </SemanticModal.Content>
+          <SemanticModal.Actions>
+            <Button {...actionButtonState.close} id="close-button" />
+            <Button {...actionButtonState.save} id="save-button" />
+          </SemanticModal.Actions>
+        </SemanticModal>
+      );
+    },
+    [],
   );
+
+  Modal.props = {
+    open,
+    size,
+    title,
+    dimmer,
+    formName,
+    actionButtonState,
+    childComponent,
+    childComponentProps,
+  };
 
   return Modal;
 }
+
+const renderTitle = (title, formName) =>
+  formName ? (
+    <SemanticModal.Header>{title}</SemanticModal.Header>
+  ) : (
+    <Header icon>
+      <Icon name="remove" />
+      {title}
+    </Header>
+  );
+
+const renderContent = (ownProps) => {
+  const { component, childComponentProps } = ownProps;
+
+  if (typeof component === 'string') return component;
+
+  const Component = component;
+  return <Component {...childComponentProps} />;
+};

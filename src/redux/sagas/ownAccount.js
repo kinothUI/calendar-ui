@@ -13,12 +13,7 @@ import {
   successPatchAccount,
   ACCOUNT_PATCH,
 } from 'redux/actions/ownAccount';
-import {
-  fetchAuthenticatedAccount,
-  fetchPatchAccount,
-  login,
-  logout,
-} from 'services/ownAccount';
+import { fetchAuthenticatedAccount, fetchPatchAccount, login, logout } from 'services/ownAccount';
 import { EntityDescriptions } from 'redux/reducers/entity';
 import { FETCH } from 'redux/actions';
 
@@ -35,6 +30,7 @@ import { FETCH } from 'redux/actions';
 //  - redirect to /
 
 function* fetchAuthenticatedAccountWorker(action) {
+  console.log('fetchAuthenticatedAccountWorker');
   yield put(requestOwnAccount());
   const { response, error } = yield call(fetchAuthenticatedAccount);
 
@@ -70,7 +66,6 @@ function* logoutWorker() {
 }
 
 function* loginWorker(action) {
-  yield put(requestOwnAccount());
   const { error } = yield call(login, action.credentials);
 
   if (error) yield put(failureFetchOwnAccount(error));

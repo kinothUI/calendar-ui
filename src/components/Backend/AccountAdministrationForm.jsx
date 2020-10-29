@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { Form as SemanticForm, Label } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import {
   SimpleInput,
@@ -11,13 +12,10 @@ import {
   populateMenuItems,
 } from 'components/elements/inputs';
 
-function AccountAdministrationForm(props) {
-  const { isUpdate } = props;
-
-  console.log('props in ACCADMINFORM', props);
-
+function AccountAdministrationForm(ownProps) {
   const [hidden, setHidden] = useState(true);
   const { entities } = useSelector((state) => state);
+  const { t } = useTranslation();
 
   const teamOptions = populateMenuItems(entities.team.content);
 
@@ -25,28 +23,21 @@ function AccountAdministrationForm(props) {
     <Label icon="unhide" onClick={() => setHidden(!hidden)} className="password-icon" />
   );
   return (
-    <Form
-      onSubmit={props.handleSubmit}
-      initialValues={props.initialValues}
-      validate={(fields, meta) => {
-        console.log('fields in validate AccountAdministrationForm', fields, meta);
-        return undefined;
-      }}
-    >
+    <Form onSubmit={ownProps.handleSubmit} initialValues={ownProps.initialValues} autoComplete="off">
       {({ handleSubmit }) => (
         <SemanticForm onSubmit={handleSubmit} id="AccountAdministrationForm">
           <SemanticForm.Group widths="2">
             <Field
               name="name"
-              label="Vorname"
-              placeholder="Vorname"
+              label={t('form-entities:account_administration.form.first_name.label')}
+              placeholder={t('form-entities:account_administration.form.first_name.placeholder')}
               component={SimpleInput}
               required
             />
             <Field
               name="surname"
-              label="Nachname"
-              placeholder="Nachname"
+              label={t('form-entities:account_administration.form.last_name.label')}
+              placeholder={t('form-entities:account_administration.form.last_name.placeholder')}
               component={SimpleInput}
               required
             />
@@ -54,16 +45,16 @@ function AccountAdministrationForm(props) {
           <SemanticForm.Group widths="equal">
             <Field
               name="email"
-              label="E-Mail Adresse"
-              placeholder="E-Mail Adresse"
+              label={t('form-entities:account_administration.form.email.label')}
+              placeholder={t('form-entities:account_administration.form.email.placeholder')}
               component={SimpleInput}
               required
             />
-            {!isUpdate && (
+            {ownProps.isCreate && (
               <Field
                 name="password"
-                labelText="Passwort"
-                placeholder="Passwort"
+                labelText={t('form-entities:account_administration.form.password.label')}
+                placeholder={t('form-entities:account_administration.form.password.placeholder')}
                 label={PasswordLabel}
                 component={PasswordInput}
                 type={hidden ? 'password' : 'text'}
@@ -74,7 +65,8 @@ function AccountAdministrationForm(props) {
           <SemanticForm.Group widths="2">
             <Field
               name="teams"
-              label="Teams"
+              label={t('form-entities:account_administration.form.teams.label')}
+              placeholder={t('form-entities:account_administration.form.teams.placeholder')}
               component={SelectField}
               options={teamOptions}
               multiSelect
@@ -82,7 +74,7 @@ function AccountAdministrationForm(props) {
             />
             <Field
               name="admin"
-              label="als Administrator setzen"
+              label={t('form-entities:account_administration.form.admin.label')}
               component={Checkbox}
               type="checkbox"
             />

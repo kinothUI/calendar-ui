@@ -6,23 +6,18 @@ import { useModal } from 'hooks/withModal';
 import Navbar from 'Layout/Navbar';
 import Footer from 'Layout/Footer';
 import FetchingLoader from 'Layout/FetchingLoader';
-import MeetingForm from 'components/elements/forms/MeetingForm';
 import { FallBackLoader } from 'index';
 
-function CalendarLayout(ownProps) {
+function PublicLayout(ownProps) {
   const { component: Component, user } = ownProps;
 
-  const { router, ownAccount } = useSelector((state) => state);
+  const { ownAccount } = useSelector((state) => state);
   const { modalState, Modal } = useModal();
-
-  const isBackend = router.location.pathname.includes('/backend', 0);
-
-  console.log('modalState in PublicLayout', modalState);
 
   return (
     <React.Fragment>
       <React.Suspense fallback={FallBackLoader}>
-        <Navbar modalState={modalState} user={user} isBackend={isBackend} ownAccount={ownAccount} />
+        <Navbar modalState={modalState} user={user} isBackend={false} ownAccount={ownAccount} />
 
         <div className="pre-main-content">
           <div className="main-content">
@@ -36,12 +31,7 @@ function CalendarLayout(ownProps) {
           </div>
         </div>
 
-        <Modal>
-          <MeetingForm
-            handleSubmit={modalState.handleSubmit.form}
-            initialValues={modalState.initialValues}
-          />
-        </Modal>
+        <Modal />
         <div className="padding-bottom" />
         <Footer />
         <FetchingLoader />
@@ -50,4 +40,4 @@ function CalendarLayout(ownProps) {
   );
 }
 
-export default CalendarLayout;
+export default PublicLayout;

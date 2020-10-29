@@ -13,11 +13,7 @@ export const fetchAllByEntity = ({ entityDescription }) =>
  * @param {any} body
  */
 export const createEntity = ({ entityDescription, body }) =>
-  callApi(
-    `/api/entity/${entityDescription.toLowerCase()}`,
-    HttpMethod.POST,
-    body,
-  );
+  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.POST, body);
 
 /**
  * Updates an existing Entity by Id
@@ -37,8 +33,4 @@ export const patchEntity = ({ entityDescription, id, body }) =>
  * @param {number} id
  */
 export const deleteEntityById = ({ entityDescription, id }) =>
-  callApi(
-    `/api/entity/${entityDescription.toLowerCase()}`,
-    HttpMethod.DELETE,
-    id,
-  );
+  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.DELETE, { id });

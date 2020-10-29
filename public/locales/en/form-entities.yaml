@@ -1,15 +1,103 @@
-account:
-  label: 'User'
-  crud:
-    add: 'Add new $t(form-entities:account.label)'
-    patch: 'Edit $t(form-entities:account.label) {{name}}'
-team:
+buttons:
+  save: 'Save'
+  cancel: 'Cancel'
+  yes: '$t(translations:yes)'
+  no: '$t(translations:no)'
+table:
+  identifier: 'Identifier'
+auth:
+  logout: 'Logout'
+  email:
+    label: 'E-Mail Address'
+    placeholder: '$t(form-entities:auth.email.label)'
+  password:
+    label: 'Password'
+    placeholder: '$t(form-entities:auth.password.label)'
+  button:
+    label: 'Login'
+  progress:
+    header: 'Authentication'
+    body: 'Verifying account credentials'
+    error:
+      header: 'Authentication failed'
+      body: 'Username or Password wrong'
+account_administration:
+  label: 'Account'
+  table:
+    first_name: '$t(form-entities:account_administration.form.first_name.label)'
+    last_name: '$t(form-entities:account_administration.form.last_name.label)'
+    email: '$t(form-entities:account_administration.form.email.label)'
+  modal:
+    header:
+      add: 'Add new $t(form-entities:account_administration.label)'
+      edit: 'Edit $t(form-entities:account_administration.label) {{name}}'
+      delete: 'Delete Account'
+    body:
+      delete: 'Do you really want to delete {{name}}?'
+  form:
+    first_name:
+      label: 'First Name'
+      placeholder: '$t(form-entities:account_administration.form.first_name.label)'
+    last_name:
+      label: 'Last Name'
+      placeholder: '$t(form-entities:account_administration.form.last_name.label)'
+    email:
+      label: '$t(form-entities:auth.email.label)'
+      placeholder: '$t(form-entities:account_administration.form.email.label)'
+    password:
+      label: '$t(form-entities:auth.password.label)'
+      placeholder: '$tform-entities:(account_administration.form.password.label)'
+    teams:
+      label: 'Teams'
+      placeholder: '$t(form-entities:account_administration.form.teams.label)'
+    admin:
+      label: 'Administrator'
+team_administration:
   label: 'Team'
-  crud:
-    add: 'Add new $t(form-entities:team.label)'
-    edit: 'Edit $t(form-entities:team.label) {{name}}'
-room:
+  table:
+    name: '$t(form-entities:team_administration.form.name.label)'
+  modal:
+    header:
+      add: 'Add new $t(form-entities:team_administration.label)'
+      edit: 'Edit $t(form-entities:team_administration.label) {{name}}'
+      delete: 'Delete Team'
+    body:
+      delete: 'Do you really want to delete {{name}}?'
+  form:
+    name:
+      label: 'Team-Name'
+      placeholder: '$t(form-entities:team_administration.form.name.label)'
+room_administration:
   label: 'Meeting-Room'
-  crud:
-    add: 'Add new $t(form-entities:room.label)'
-    edit: 'Edit $t(form-entities:room.label) {{name}}'
+  table:
+    name: '$t(form-entities:room_administration.form.name.label)'
+  modal:
+    header:
+      add: 'Add new $t(form-entities:room_administration.label)'
+      edit: 'Edit $t(form-entities:room_administration.label) {{name}}'
+      delete: 'Delete Meeting-Room'
+    body:
+      delete: 'Do you really want to delete {{name}}?'
+  form:
+    name:
+      label: 'Meetingroom-Name'
+      placeholder: '$t(form-entities:room_administration.form.name.label)'
+menu:
+  account_settings:
+    label: 'Account Settings'
+  logout:
+    label: 'Logout'
+meeting:
+  header: 'Create new Meeting'
+  form:
+    topic:
+      label: 'Meeting Topic'
+      placeholder: '$t(form-entities:meeting.form.topic.label)'
+    time:
+      label: 'Start Time'
+    room:
+      label: 'Meeting-Room'
+      placeholder: '$t(form-entities:meeting.form.room.label)'
+    attendees:
+      label: 'Attendees'
+      placeholder: '$t(form-entities:meeting.form.attendees.label)'

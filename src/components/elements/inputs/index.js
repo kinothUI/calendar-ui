@@ -1,8 +1,9 @@
 import SimpleInput from 'components/elements/inputs/SimpleInput';
 import Checkbox from 'components/elements/inputs/Checkbox';
 import PasswordInput from 'components/elements/inputs/PasswordInput';
-import DateTimePicker from 'components/elements/inputs/DateTimePicker';
+import DateTimePicker from 'components/elements/date-time/DateTimePicker';
 import SelectField from 'components/elements/inputs/SelectField';
+import LanguageDropdown from "components/elements/inputs/LanguageDropdown";
 
 /**
  *
@@ -17,11 +18,4 @@ const populateMenuItems = (entity) => {
   }));
 };
 
-export {
-  SimpleInput,
-  Checkbox,
-  PasswordInput,
-  DateTimePicker,
-  SelectField,
-  populateMenuItems,
-};
+export { SimpleInput, Checkbox, PasswordInput, DateTimePicker, SelectField, LanguageDropdown, populateMenuItems };

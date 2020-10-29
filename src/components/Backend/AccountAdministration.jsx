@@ -1,25 +1,23 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Header, Divider } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
-import { action, FETCH, CREATE, UPDATE } from 'redux/actions';
+import { action, FETCH, CREATE, UPDATE, DELETE } from 'redux/actions';
 import { EntityDescriptions } from 'redux/reducers/entity';
 import DataTable from 'components/elements/DataTable';
+import AccountAdministrationForm from 'components/Backend/AccountAdministrationForm';
 
 function AccountAdministration(ownProps) {
   const {
-    modal: {
-      modalState: {
-        setTitle,
-        setActionButtonState,
-        setInitialValues,
-        setOpen,
-        setSize,
-        setComponent,
-        setHandleSubmit,
-      },
-      actionButtonDefaultState,
+    modalState: {
+      setTitle,
+      setOpen,
+      setSize,
+      setChildComponent,
+      setChildComponentProps,
+      setOnProceed,
+      setFormName,
     },
   } = ownProps;
 
@@ -34,57 +32,71 @@ function AccountAdministration(ownProps) {
         entityDescription: ACCOUNT,
       }),
     );
-    return () => console.log('AccountAdministration unmounted, useEffect clearup');
+    return () => console.log('AccountAdministration unmounted, useEffect cleanup');
   }, [dispatch, ACCOUNT]);
 
-  const cols = [
-    { dataKey: 'id', name: 'Kennzeichen' },
-    { dataKey: 'name', name: 'Vorname' },
-    { dataKey: 'surname', name: 'Nachname' },
-    { dataKey: 'email', name: 'E-Mail' },
-  ];
+  const transKeySelf = `${ACCOUNT.toLowerCase()}_administration`;
 
-  const component = 'AccountAdministrationForm';
+  const cols = [
+    { dataKey: 'id', name: t('form-entities:table.identifier') },
+    { dataKey: 'name', name: t(`form-entities:${transKeySelf}.table.first_name`) },
+    { dataKey: 'surname', name: t(`form-entities:${transKeySelf}.table.last_name`) },
+    { dataKey: 'email', name: t(`form-entities:${transKeySelf}.table.email`) },
+  ];
 
   return (
     <React.Fragment>
-      <Header as="h2" content={t(`backend.menu.${ACCOUNT.toLowerCase()}.label`)} />
-      <Divider />
+      <Header as="h2" content={t(`backend.menu.account.label`)} />
       <DataTable
         cols={cols}
         rows={account.content}
         onCreate={() => {
           setSize('large');
-          setTitle(t('form-entities:account.crud.add'));
-          setComponent(component);
-          setInitialValues({});
-          setActionButtonState(actionButtonDefaultState);
-          setHandleSubmit({
-            form: (fields) =>
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.add`));
+          setChildComponent({ component: AccountAdministrationForm });
+          setChildComponentProps({
+            handleSubmit: (fields) =>
               dispatch(
                 action(`${CREATE}_${ACCOUNT}`, { entityDescription: ACCOUNT, body: fields }),
               ),
+            isCreate: true,
           });
+          setFormName('AccountAdministrationForm');
           setOpen(true);
         }}
         onEdit={(row) => {
           setSize('large');
-          setTitle(t('form-entities:account.crud.edit', { name: row.email }));
-          setComponent(component);
-          setActionButtonState(actionButtonDefaultState);
-          setInitialValues(row);
-          setHandleSubmit({
-            form: (fields) =>
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.edit`, { name: row.email }));
+          setChildComponent({ component: AccountAdministrationForm });
+          setChildComponentProps({
+            handleSubmit: (fields) =>
               dispatch(
                 action(`${UPDATE}_${ACCOUNT}`, {
                   entityDescription: ACCOUNT,
                   body: fields,
                 }),
               ),
+            isCreate: false,
+            initialValues: row,
           });
+          setFormName('AccountAdministrationForm');
           setOpen(true);
         }}
-        onDelete={(row) => console.log(row)}
+        onDelete={({ name, surname, id }) => {
+          setSize('tiny');
+          setTitle(t(`form-entities:${transKeySelf}.modal.header.delete`));
+          setChildComponent({
+            component: t(`form-entities:${transKeySelf}.modal.body.delete`, {
+              name: `${name} ${surname}`,
+            }),
+          });
+          setOnProceed({
+            proceedAction: () =>
+              dispatch(action(`${DELETE}_${ACCOUNT}`, { entityDescription: ACCOUNT, id })),
+          });
+          setFormName(false);
+          setOpen(true);
+        }}
       />
     </React.Fragment>
   );

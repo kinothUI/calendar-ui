@@ -1,10 +1,13 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { Form as SemanticForm } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
+
 import { SimpleInput } from 'components/elements/inputs';
 
 function TeamAdministration(props) {
-  console.log('%c props in TeamAdministration', 'color: green;', props);
+  const { t } = useTranslation();
+
   return (
     <Form
       onSubmit={props.handleSubmit}
@@ -19,8 +22,8 @@ function TeamAdministration(props) {
           <SemanticForm.Group widths="2">
             <Field
               name="name"
-              label="Team-Name"
-              placeholder="Team-Name"
+              label={t('form-entities:team_administration.form.name.label')}
+              placeholder={t('form-entities:team_administration.form.name.placeholder')}
               component={SimpleInput}
               required
             />

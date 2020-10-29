@@ -13,34 +13,20 @@ import {
 import HttpStatus from 'http-status-codes';
 
 const InitialState = {
-  content: undefined,
   isFetching: false,
-  error: undefined,
 };
 
 function ownAccountReducer(state = InitialState, action) {
   switch (action.type) {
     case REQUEST_OWN_ACCOUNT:
-      return _.assign({}, { ...state, isFetching: true });
+      return _.assign({}, state, { isFetching: true });
 
     case SUCCESS_FETCH_OWN_ACCOUNT:
       // not logged in
       if (action.response.status === HttpStatus.NO_CONTENT)
-        return _.assign({}, state, {
-          isFetching: false,
-          content: undefined,
-          error: undefined,
-        });
+        return _.assign({}, state, { isFetching: false });
       // logged in
-      else
-        return _.assign(
-          {},
-          {
-            isFetching: false,
-            content: action.response,
-            error: undefined,
-          },
-        );
+      else return _.assign({}, state, { isFetching: false, content: action.response });
 
     case FAILURE_FETCH_OWN_ACCOUNT:
       return _.assign({}, state, { isFetching: false, error: action.error });
@@ -55,15 +41,12 @@ function ownAccountReducer(state = InitialState, action) {
       return _.assign({}, state, { isFetching: false, error: action.error });
 
     case ACCOUNT_PATCH:
-      return _.assign({}, { ...state, isFetching: true });
+      return _.assign({}, state, { isFetching: true });
 
     case ACCOUNT_PATCH_SUCCESS:
-      return _.assign(
-        {},
-        { ...state, isFetching: false, content: { ...action.account } },
-      );
+      return _.assign({}, state, { isFetching: false, content: action.account });
     case ACCOUNT_PATCH_FAILURE:
-      return _.assign({}, { ...state, error: action.error });
+      return _.assign({}, state, { error: action.error });
     default:
       return state;
   }

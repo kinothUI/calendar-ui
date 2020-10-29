@@ -1,3 +1,8 @@
+yes: 'Ja'
+no: 'Nein'
+language:
+  de: 'Deutsch'
+  en: 'Englisch'
 backend:
   menu:
     account:
@@ -6,25 +11,15 @@ backend:
       label: 'Team'
     room:
       label: 'Besprechungsraum'
-auth:
-  login: 'Anmelden'
-  logout: 'Abmelden'
-  email:
-    label: 'E-Mail Adresse'
-    placeholder: '$t(auth.email.label)'
-  password:
-    label: 'Passwort'
-    placeholder: '$t(auth.password.label)'
-  progress:
-    header: 'Anmeldung läuft'
-    body: 'Überprüfe Login-Daten'
-    error:
-      header: 'Anmeldung fehlgeschlagen'
-      body: 'Username oder Passwort falsch'
-language:
-  de: 'Deutsch'
-  en: 'English'
 page:
   not_found: 'Seite nicht gefunden'
-  calendar:
-    create: 'neuen Termin anlegen'
+calendar:
+  new_meeting:
+    header: '$t(navbar.new_meeting.label) anlegen'
+  popup: '$t(calendar.new_meeting.header)'
+navbar:
+  new_meeting:
+    label: 'neues Meeting'
+  menu:
+    account_settings:
+      label: 'Account Einstellungen'

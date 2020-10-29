@@ -10,6 +10,16 @@ body {
   justify-content: center;
 }
 
+.main-nav {
+  position: absolute;
+
+  width: 100%;
+
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 .pre-main-content {
   padding-top: 50px;
 }

@@ -7,7 +7,6 @@ import { useSharedMoment } from 'hooks/sharedMoment';
 
 const Calendar = (ownProps) => {
   const { modalState, ownAccount } = ownProps;
-  console.log('ownProps in Calendar render()', ownProps);
 
   const [value, setValue] = useSharedMoment();
 
@@ -17,7 +16,7 @@ const Calendar = (ownProps) => {
       <CalendarBody
         ownAccount={ownAccount}
         currentMoment={{ value, setValue }}
-        modal={modalState}
+        modalState={modalState}
       />
       <CalendarFooter ownAccount={ownAccount} />
     </React.Fragment>

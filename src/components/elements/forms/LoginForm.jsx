@@ -15,7 +15,7 @@ const InitialState = {
 const LoginForm = (props) => {
   const dispatch = useDispatch();
   const [state, setState] = useState(InitialState);
-  const { t } = useTranslation('translations');
+  const { t } = useTranslation();
   const { ownAccount } = useSelector((state) => state);
 
   const handleOnChange = (event) => setState({ ...state, [event.target.name]: event.target.value });
@@ -38,22 +38,22 @@ const LoginForm = (props) => {
               <Form.Input
                 name="email"
                 type="text"
-                label={t('auth.email.label')}
-                placeholder={t('auth.email.placeholder')}
+                label={t('form-entities:auth.email.label')}
+                placeholder={t('form-entities:auth.email.placeholder')}
                 onChange={handleOnChange}
                 required
               />
               <Form.Input
                 name="password"
                 type="password"
-                label={t('auth.password.label')}
-                placeholder={t('auth.password.placeholder')}
+                label={t('form-entities:auth.password.label')}
+                placeholder={t('form-entities:auth.password.placeholder')}
                 onChange={handleOnChange}
                 required
               />
               <Divider />
               <Button
-                content={t('auth.login')}
+                content={t('form-entities:auth.button.label')}
                 type="submit"
                 disabled={ownAccount.isFetching}
                 fluid
@@ -75,8 +75,8 @@ const renderStatusMessage = (submitted, ownAccount, t) => {
         <Message positive icon attached="bottom">
           <Icon name="circle notched" loading />
           <Message.Content>
-            <Message.Header>{t('auth.progress.header')}</Message.Header>
-            {t('auth.progress.body')}
+            <Message.Header>{t('form-entities:auth.progress.header')}</Message.Header>
+            {t('form-entities:auth.progress.body')}
           </Message.Content>
         </Message>
       );
@@ -87,8 +87,8 @@ const renderStatusMessage = (submitted, ownAccount, t) => {
         <Message negative icon attached="bottom">
           <Icon name="bullhorn" />
           <Message.Content>
-            <Message.Header>{t('auth.progress.error.header')}</Message.Header>
-            {t('auth.progress.error.body')}
+            <Message.Header>{t('form-entities:auth.progress.error.header')}</Message.Header>
+            {t('form-entities:auth.progress.error.body')}
           </Message.Content>
         </Message>
       );

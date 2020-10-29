@@ -8,69 +8,56 @@ import { Link } from 'react-router-dom';
 import { LOGOUT } from 'redux/actions/ownAccount';
 import { action } from 'redux/actions';
 import { REQUEST_SAVE } from 'redux/actions/meeting';
-import { generateActionButtonState } from 'hooks/withModal';
 import { getNextHourMoment } from 'helpers';
+import MeetingForm from 'components/elements/forms/MeetingForm';
+import { LanguageDropdown } from 'components/elements/inputs';
 
 const Navbar = (ownProps) => {
-  console.log('ownProps in Navbar', ownProps);
   const { modalState, user, isBackend, ownAccount } = ownProps;
-  const {
-    setOpen,
-    setTitle,
-    setSize,
-    setActionButtonState,
-    setComponent,
-    setHandleSubmit,
-    setInitialValues,
-  } = modalState;
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   if (!user.isAuthenticated) {
     return (
-      <Menu attached inverted borderless size="small" color="grey">
-        <Container>{renderBrandButton()}</Container>
-      </Menu>
+      <nav>
+        <Menu attached inverted borderless size="small" color="grey">
+          <Container>{renderBrandButton()}</Container>
+        </Menu>
+      </nav>
     );
   }
 
-  const actionButtonDefaultState = generateActionButtonState({
-    save: () => {
-      document
-        .getElementById('MeetingForm')
-        .dispatchEvent(new Event('submit', { cancelable: true }));
-      setOpen(false);
-    },
-    cancel: () => setOpen(false),
-  });
-
   return (
-    <React.Fragment>
+    <nav>
       <Menu attached inverted borderless size="small" color={isBackend ? 'black' : 'grey'}>
         <Container>
           {renderBrandButton()}
           <Menu.Item
             position="right"
-            content="neues Meeting"
+            content={t('navbar.new_meeting.label')}
             header
             onClick={() => {
-              setSize('mini');
-              setTitle('neues Meeting anlegen');
-              setComponent('MeetingForm');
-              setInitialValues({ time: getNextHourMoment() });
-              setActionButtonState(actionButtonDefaultState);
-              setHandleSubmit({
-                form: (fields) => dispatch(action(`${REQUEST_SAVE}`, { meeting: fields })),
+              modalState.setSize('mini');
+              modalState.setTitle(t('form-entities:meeting.header'));
+              modalState.setChildComponent({ component: MeetingForm });
+              modalState.setChildComponentProps({
+                time: getNextHourMoment(),
+                handleSubmit: (fields) => dispatch(action(`${REQUEST_SAVE}`, { meeting: fields })),
+                modalState,
               });
-              setOpen(true);
+              modalState.setFormName('MeetingForm');
+              modalState.setOpen(true);
             }}
           />
+          <Menu.Item position="right" className="no-padding-margin">
+            {isBackend && <LanguageDropdown isBackend />}
+          </Menu.Item>
           <Menu.Item position="right" className="no-padding-margin">
             <Dropdown item text={`${ownAccount.content.name} ${ownAccount.content.surname}`}>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => console.log('programmier mich')}>
-                  Account Einstellungen
+                  {t('navbar.menu.account_settings.label')}
                 </Dropdown.Item>
                 {user.isAdmin && (
                   <Dropdown.Item onClick={() => dispatch(push('/backend/account'))}>
@@ -78,14 +65,14 @@ const Navbar = (ownProps) => {
                   </Dropdown.Item>
                 )}
                 <Dropdown.Item onClick={() => dispatch(action(LOGOUT))}>
-                  {t('auth.logout')}
+                  {t('form-entities:auth.logout')}
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>
         </Container>
       </Menu>
-    </React.Fragment>
+    </nav>
   );
 };
 
