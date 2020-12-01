@@ -2,7 +2,6 @@ import React from 'react';
 
 import CalendarHeader from 'components/Calendar/CalendarHeader';
 import CalendarBody from 'components/Calendar/CalendarBody';
-import CalendarFooter from 'components/Calendar/CalendarFooter';
 import { useSharedMoment } from 'hooks/sharedMoment';
 
 const Calendar = (ownProps) => {
@@ -18,7 +17,6 @@ const Calendar = (ownProps) => {
         currentMoment={{ value, setValue }}
         modalState={modalState}
       />
-      <CalendarFooter ownAccount={ownAccount} />
     </React.Fragment>
   );
 };

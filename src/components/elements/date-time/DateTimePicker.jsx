@@ -1,9 +1,8 @@
 import React from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import { SimpleInput } from 'components/elements/inputs';
 import { getValidationLabelProps } from 'components/elements/inputs/ValidationLabelProps';
 import { getNextHourMoment } from 'helpers';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -47,6 +46,7 @@ function DateTimePicker(ownProps) {
             label={validationLabel.label}
             error={validationLabel.isError}
             icon={validationLabel.errorIcon}
+            required={required}
           />
         }
       />

@@ -33,13 +33,16 @@ const CalenderBody = (ownProps) => {
 
   let weeks = [];
   let date = startDay.clone().subtract(1, 'day');
+  let id = 0;
 
   while (date.isBefore(endDay, 'day')) {
     weeks.push({
+      id,
       days: Array(7)
         .fill(0)
         .map(() => date.add(1, 'day').clone()),
     });
+    id++;
   }
 
   const handleOnClick = (day) => {
@@ -70,14 +73,13 @@ const CalenderBody = (ownProps) => {
       <Grid celled columns={7} className="custom-border">
         {weeks.map((week, index) => (
           <Grid.Row key={index}>
-            {renderWeekDays(
-              week.days,
-              t,
-              firstDayOfMonth,
-              nextMonthsFirstDay,
-              handleOnClick,
-              meeting.content,
-            )}
+            <RenderWeekDays
+              week={week}
+              t={t}
+              content={meeting.content}
+              boundaries={{ firstDayOfMonth, nextMonthsFirstDay }}
+              onClick={handleOnClick}
+            />
           </Grid.Row>
         ))}
       </Grid>
@@ -85,24 +87,23 @@ const CalenderBody = (ownProps) => {
   );
 };
 
-/**
- * Renders a whole row of a week
- * @param {Array} week
- * @param {any} t
- * @param {Boolean} firstDayOfMonth
- * @param {Boolean} nextMonthsFirstDay
- * @param {() => void} handleOnClick
- * @param {Array} meeting
- */
-const renderWeekDays = (week, t, firstDayOfMonth, nextMonthsFirstDay, handleOnClick, meeting) => {
+const RenderWeekDays = (ownProps) => {
+  const {
+    week,
+    t,
+    content,
+    boundaries: { firstDayOfMonth, nextMonthsFirstDay },
+    onClick,
+  } = ownProps;
+
   return (
     <React.Fragment>
-      {week.map((day, index) => {
+      {week.days.map((day, index) => {
         const isFirstDayOfMonth = firstDayOfMonth.isSame(day);
         const isNextMonthsFirstDay = nextMonthsFirstDay.isSame(day);
         const isToday = moment().isSame(day, 'day');
         const isPast = moment().isAfter(day, 'day');
-        const meetings = meeting
+        const meetings = content
           .filter((item) => moment(item.time).isSame(day, 'day'))
           .sort((a, b) =>
             moment(a.time).format('HH:mm') > moment(b.time).format('HH:mm') ? 1 : -1,
@@ -123,7 +124,7 @@ const renderWeekDays = (week, t, firstDayOfMonth, nextMonthsFirstDay, handleOnCl
                 isNextMonthsFirstDay,
                 isToday,
                 isPast,
-                handleOnClick,
+                onClick,
                 t,
               )}
             {!isPast && (
@@ -134,7 +135,7 @@ const renderWeekDays = (week, t, firstDayOfMonth, nextMonthsFirstDay, handleOnCl
                   isNextMonthsFirstDay,
                   isToday,
                   isPast,
-                  handleOnClick,
+                  onClick,
                   t,
                 )}
                 content={t('calendar.popup')}

@@ -78,7 +78,7 @@ export function useModal() {
         close: getOnCloseDeleteModalProps(setOpen, t),
       });
     }
-  }, [formName]);
+  }, [formName, onProceed, t]);
 
   const Modal = useModalComponent(
     open,

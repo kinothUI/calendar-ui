@@ -23,6 +23,10 @@
   padding: 0 !important;
 }
 
+.ui.menu:not(.vertical) .right.item.no-margin-left {
+  margin-left: 0 !important;
+}
+
 .ui.container.backend-container {
   margin-left: calc(var(auto) + 200px) !important;
   margin-top: calc(var(auto) + 50px) !important;

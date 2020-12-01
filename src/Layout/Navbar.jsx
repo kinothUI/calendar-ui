@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Menu, Dropdown, Container } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { push } from 'connected-react-router';
-import { Link } from 'react-router-dom';
 
+import BrandButton from 'Layout/BrandButton';
 import { LOGOUT } from 'redux/actions/ownAccount';
 import { action } from 'redux/actions';
 import { REQUEST_SAVE } from 'redux/actions/meeting';
@@ -13,7 +13,13 @@ import MeetingForm from 'components/elements/forms/MeetingForm';
 import { LanguageDropdown } from 'components/elements/inputs';
 
 const Navbar = (ownProps) => {
-  const { modalState, user, isBackend, ownAccount } = ownProps;
+  const {
+    modalState,
+    user,
+    isBackend,
+    ownAccount,
+    visibility: { setVisible },
+  } = ownProps;
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -22,7 +28,9 @@ const Navbar = (ownProps) => {
     return (
       <nav>
         <Menu attached inverted borderless size="small" color="grey">
-          <Container>{renderBrandButton()}</Container>
+          <Container>
+            <BrandButton />
+          </Container>
         </Menu>
       </nav>
     );
@@ -32,7 +40,7 @@ const Navbar = (ownProps) => {
     <nav>
       <Menu attached inverted borderless size="small" color={isBackend ? 'black' : 'grey'}>
         <Container>
-          {renderBrandButton()}
+          <BrandButton />
           <Menu.Item
             position="right"
             content={t('navbar.new_meeting.label')}
@@ -42,13 +50,20 @@ const Navbar = (ownProps) => {
               modalState.setTitle(t('form-entities:meeting.header'));
               modalState.setChildComponent({ component: MeetingForm });
               modalState.setChildComponentProps({
-                time: getNextHourMoment(),
+                initialValues: { time: getNextHourMoment() },
                 handleSubmit: (fields) => dispatch(action(`${REQUEST_SAVE}`, { meeting: fields })),
                 modalState,
               });
               modalState.setFormName('MeetingForm');
               modalState.setOpen(true);
             }}
+          />
+          <Menu.Item
+            position="right"
+            content="meine Meetings"
+            header
+            onClick={() => setVisible((old) => !old)}
+            className="no-margin-left"
           />
           <Menu.Item position="right" className="no-padding-margin">
             {isBackend && <LanguageDropdown isBackend />}
@@ -77,9 +92,3 @@ const Navbar = (ownProps) => {
 };
 
 export default Navbar;
-
-const renderBrandButton = () => (
-  <Menu.Item position="left" className="brand-button-container" header as={Link} to="/">
-    <div className="brand-button" />
-  </Menu.Item>
-);

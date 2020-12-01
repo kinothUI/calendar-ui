@@ -88,7 +88,7 @@ menu:
   logout:
     label: 'Abmelden'
 meeting:
-  header: 'neues Meeting anlgen'
+  header: 'neues Meeting anlegen'
   form:
     topic:
       label: 'Meeting Thema'

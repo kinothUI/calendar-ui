@@ -17,13 +17,17 @@ function AccountAdministrationForm(ownProps) {
   const { entities } = useSelector((state) => state);
   const { t } = useTranslation();
 
-  const teamOptions = populateMenuItems(entities.team.content);
+  const teamOptions = populateMenuItems(entities.team.content, true);
 
   const PasswordLabel = (
     <Label icon="unhide" onClick={() => setHidden(!hidden)} className="password-icon" />
   );
   return (
-    <Form onSubmit={ownProps.handleSubmit} initialValues={ownProps.initialValues} autoComplete="off">
+    <Form
+      onSubmit={ownProps.handleSubmit}
+      initialValues={ownProps.initialValues}
+      autoComplete="off"
+    >
       {({ handleSubmit }) => (
         <SemanticForm onSubmit={handleSubmit} id="AccountAdministrationForm">
           <SemanticForm.Group widths="2">

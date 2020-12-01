@@ -1,31 +1,39 @@
-import React, { createRef } from 'react';
-import { Container, Visibility, Divider } from 'semantic-ui-react';
+import React from 'react';
+import { Container, Divider } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 
 import Sidebar from 'Layout/Sidebar';
 import Navbar from 'Layout/Navbar';
+// import { CalendarSidebar } from 'components/Calendar';
 import FetchingLoader from 'Layout/FetchingLoader';
 import { useModal } from 'hooks/withModal';
 
 function BackendLayout(ownProps) {
   const { component: Component, user } = ownProps;
 
-  const [navOffset, setNavOffset] = React.useState(0);
+  const [visible, setVisible] = React.useState(false);
+
   const { ownAccount } = useSelector((state) => state);
   const { modalState, Modal } = useModal();
 
   return (
     <React.Fragment>
-      <Visibility onUpdate={(onUpdateProps, data) => console.log("onUpdateProps, data:", onUpdateProps, data)} onTopPassed={(onTopPassedProps) => console.log("top moved out of viewport! onTopPassedProps:", onTopPassedProps)}>
-      <div className="main-nav">
-        <Navbar modalState={modalState} user={user} isBackend={true} ownAccount={ownAccount} />
-        <Divider fitted hidden />
+      <div className="ui fixed top sticky" style={{ width: '100%' }}>
+        <Navbar
+          modalState={modalState}
+          user={user}
+          ownAccount={ownAccount}
+          visibility={{ visible, setVisible }}
+          isBackend
+        />
       </div>
-      </Visibility>
+      <Divider fitted hidden />
+
       <Sidebar />
-      <Container as="main" className="backend-container">
+      <Container as="main" className="backend-container" style={{ padding: '50px 0' }}>
         <Component modalState={modalState} />
       </Container>
+
       <Modal />
       <FetchingLoader />
       <div style={{ minHeight: '15vh' }} />
