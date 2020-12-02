@@ -5,7 +5,7 @@ import callApi, { HttpMethod } from 'services/api';
  * @param {String} param0
  */
 export const fetchAllByEntity = ({ entityDescription }) =>
-  callApi(`/api/entity/${entityDescription.toLowerCase()}`);
+  callApi(`/api/${entityDescription.toLowerCase()}`);
 
 /**
  * Creates new Entity by given EntityDescription
@@ -13,7 +13,7 @@ export const fetchAllByEntity = ({ entityDescription }) =>
  * @param {any} body
  */
 export const createEntity = ({ entityDescription, body }) =>
-  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.POST, body);
+  callApi(`/api/${entityDescription.toLowerCase()}`, HttpMethod.POST, body);
 
 /**
  * Updates an existing Entity by Id
@@ -21,11 +21,8 @@ export const createEntity = ({ entityDescription, body }) =>
  * @param {Number} id
  * @param {any} body
  */
-export const patchEntity = ({ entityDescription, id, body }) =>
-  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.PATCH, {
-    id,
-    body,
-  });
+export const patchEntity = ({ entityDescription, body }) =>
+  callApi(`/api/${entityDescription.toLowerCase()}`, HttpMethod.PATCH, body);
 
 /**
  * Deletes an Entity by Id
@@ -33,4 +30,4 @@ export const patchEntity = ({ entityDescription, id, body }) =>
  * @param {number} id
  */
 export const deleteEntityById = ({ entityDescription, id }) =>
-  callApi(`/api/entity/${entityDescription.toLowerCase()}`, HttpMethod.DELETE, { id });
+  callApi(`/api/${entityDescription.toLowerCase()}`, HttpMethod.DELETE, { id });

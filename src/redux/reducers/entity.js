@@ -15,7 +15,7 @@ function processReducers(state, action, reducerActions) {
       else
         return _.assign({}, state, {
           isFetching: false,
-          content: action.response,
+          content: action.response.rep,
           error: undefined,
         });
 

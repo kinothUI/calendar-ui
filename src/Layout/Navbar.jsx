@@ -18,7 +18,7 @@ const Navbar = (ownProps) => {
     user,
     isBackend,
     ownAccount,
-    visibility: { setVisible },
+    sidebar: { setVisible },
   } = ownProps;
 
   const { t } = useTranslation();
@@ -69,7 +69,7 @@ const Navbar = (ownProps) => {
             {isBackend && <LanguageDropdown isBackend />}
           </Menu.Item>
           <Menu.Item position="right" className="no-padding-margin">
-            <Dropdown item text={`${ownAccount.content.name} ${ownAccount.content.surname}`}>
+            <Dropdown item text={`${ownAccount.content.firstName} ${ownAccount.content.lastName}`}>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => console.log('programmier mich')}>
                   {t('navbar.menu.account_settings.label')}

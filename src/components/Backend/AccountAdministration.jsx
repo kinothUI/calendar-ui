@@ -39,8 +39,8 @@ function AccountAdministration(ownProps) {
 
   const cols = [
     { dataKey: 'id', name: t('form-entities:table.identifier') },
-    { dataKey: 'name', name: t(`form-entities:${transKeySelf}.table.first_name`) },
-    { dataKey: 'surname', name: t(`form-entities:${transKeySelf}.table.last_name`) },
+    { dataKey: 'firstName', name: t(`form-entities:${transKeySelf}.table.first_name`) },
+    { dataKey: 'lastName', name: t(`form-entities:${transKeySelf}.table.last_name`) },
     { dataKey: 'email', name: t(`form-entities:${transKeySelf}.table.email`) },
   ];
 
@@ -77,7 +77,10 @@ function AccountAdministration(ownProps) {
                 }),
               ),
             isCreate: false,
-            initialValues: row,
+            initialValues: {
+              ...row,
+              teams: row.teams.map((team) => team.id),
+            },
           });
           setFormName('AccountAdministrationForm');
           setOpen(true);

@@ -24,7 +24,7 @@ function PublicLayout(ownProps) {
           modalState={modalState}
           user={user}
           ownAccount={ownAccount}
-          visibility={{ visible, setVisible }}
+          sidebar={{ visible, setVisible }}
         />
         <CalendarSidebar visibility={{ visible, setVisible }}>
           <div style={{ background: '#eef2f7' }}>

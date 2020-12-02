@@ -10,7 +10,8 @@ function SelectField(ownProps) {
   const validationLabelProps = getValidationLabelProps(meta, label);
 
   return (
-    <Form.Select
+    <Form.Dropdown
+      value={input.value}
       onChange={handleOnChange}
       multiple={multiSelect}
       label={validationLabelProps.label}

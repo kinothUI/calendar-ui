@@ -32,14 +32,14 @@ function AccountAdministrationForm(ownProps) {
         <SemanticForm onSubmit={handleSubmit} id="AccountAdministrationForm">
           <SemanticForm.Group widths="2">
             <Field
-              name="name"
+              name="firstName"
               label={t('form-entities:account_administration.form.first_name.label')}
               placeholder={t('form-entities:account_administration.form.first_name.placeholder')}
               component={SimpleInput}
               required
             />
             <Field
-              name="surname"
+              name="lastName"
               label={t('form-entities:account_administration.form.last_name.label')}
               placeholder={t('form-entities:account_administration.form.last_name.placeholder')}
               component={SimpleInput}
@@ -77,7 +77,7 @@ function AccountAdministrationForm(ownProps) {
               search
             />
             <Field
-              name="admin"
+              name="isAdmin"
               label={t('form-entities:account_administration.form.admin.label')}
               component={Checkbox}
               type="checkbox"

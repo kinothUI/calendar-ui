@@ -23,7 +23,7 @@ const App = () => {
   }, [dispatch]);
 
   const isAuthenticated = !!ownAccount.content;
-  const isAdmin = ownAccount.content && !!ownAccount.content.admin;
+  const isAdmin = ownAccount.content && !!ownAccount.content.isAdmin;
 
   const user = { isAuthenticated, isAdmin };
 
