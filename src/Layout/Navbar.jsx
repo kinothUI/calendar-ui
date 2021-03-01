@@ -11,15 +11,18 @@ import { REQUEST_SAVE } from 'redux/actions/meeting';
 import { getNextHourMoment } from 'helpers';
 import MeetingForm from 'components/elements/forms/MeetingForm';
 import { LanguageDropdown } from 'components/elements/inputs';
+import { useModalStateProvider } from 'hooks/withModal';
 
 const Navbar = (ownProps) => {
   const {
-    modalState,
     user,
     isBackend,
     ownAccount,
     sidebar: { setVisible },
   } = ownProps;
+
+  const { modalState } = useModalStateProvider();
+  console.log('%c modalState', 'color: #ff0000', modalState);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();

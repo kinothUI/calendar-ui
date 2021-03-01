@@ -6,7 +6,7 @@ import Sidebar from 'Layout/Sidebar';
 import Navbar from 'Layout/Navbar';
 // import { CalendarSidebar } from 'components/Calendar';
 import FetchingLoader from 'Layout/FetchingLoader';
-import { useModal } from 'hooks/withModal';
+import { useModal, ModalStateProviderContext } from 'hooks/withModal';
 
 function BackendLayout(ownProps) {
   const { component: Component, user } = ownProps;
@@ -18,25 +18,21 @@ function BackendLayout(ownProps) {
 
   return (
     <React.Fragment>
-      <div className="ui fixed top sticky" style={{ width: '100%' }}>
-        <Navbar
-          modalState={modalState}
-          user={user}
-          ownAccount={ownAccount}
-          sidebar={{ visible, setVisible }}
-          isBackend
-        />
-      </div>
-      <Divider fitted hidden />
+      <ModalStateProviderContext.Provider value={{ modalState }}>
+        <div className="ui fixed top sticky" style={{ width: '100%' }}>
+          <Navbar user={user} ownAccount={ownAccount} sidebar={{ visible, setVisible }} isBackend />
+        </div>
+        <Divider fitted hidden />
 
-      <Sidebar />
-      <Container as="main" className="backend-container" style={{ padding: '50px 0' }}>
-        <Component modalState={modalState} />
-      </Container>
+        <Sidebar />
+        <Container as="main" className="backend-container" style={{ padding: '50px 0' }}>
+          <Component />
+        </Container>
 
-      <Modal />
-      <FetchingLoader />
-      <div style={{ minHeight: '15vh' }} />
+        <Modal />
+        <FetchingLoader />
+        <div style={{ minHeight: '15vh' }} />
+      </ModalStateProviderContext.Provider>
     </React.Fragment>
   );
 }

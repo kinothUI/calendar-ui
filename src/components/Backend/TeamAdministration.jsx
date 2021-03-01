@@ -7,19 +7,19 @@ import { EntityDescriptions } from 'redux/reducers/entity';
 import { action, FETCH, CREATE, UPDATE, DELETE } from 'redux/actions';
 import DataTable from 'components/elements/DataTable';
 import TeamAdministrationForm from 'components/Backend/TeamAdministrationForm';
+import { useModalStateProvider } from 'hooks/withModal';
 
-function TeamAdministration(ownProps) {
+function TeamAdministration() {
+  const { modalState } = useModalStateProvider();
   const {
-    modalState: {
-      setTitle,
-      setOpen,
-      setSize,
-      setChildComponent,
-      setChildComponentProps,
-      setOnProceed,
-      setFormName,
-    },
-  } = ownProps;
+    setTitle,
+    setOpen,
+    setSize,
+    setChildComponent,
+    setChildComponentProps,
+    setOnProceed,
+    setFormName,
+  } = modalState;
 
   const dispatch = useDispatch();
   const { team } = useSelector((state) => state.entities);

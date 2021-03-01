@@ -7,19 +7,19 @@ import { EntityDescriptions } from 'redux/reducers/entity';
 import { action, CREATE, DELETE, FETCH, UPDATE } from 'redux/actions';
 import DataTable from 'components/elements/DataTable';
 import RoomAdministrationForm from 'components/Backend/RoomAdministrationForm';
+import { useModalStateProvider } from 'hooks/withModal';
 
-function RoomAdministration(ownProps) {
+function RoomAdministration() {
+  const { modalState } = useModalStateProvider();
   const {
-    modalState: {
-      setTitle,
-      setOpen,
-      setSize,
-      setChildComponent,
-      setChildComponentProps,
-      setOnProceed,
-      setFormName,
-    },
-  } = ownProps;
+    setTitle,
+    setOpen,
+    setSize,
+    setChildComponent,
+    setChildComponentProps,
+    setOnProceed,
+    setFormName,
+  } = modalState;
 
   const dispatch = useDispatch();
   const { room } = useSelector((state) => state.entities);

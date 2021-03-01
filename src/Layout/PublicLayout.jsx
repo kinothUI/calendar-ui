@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Container, Grid } from 'semantic-ui-react';
 
 import { CalendarSidebar } from 'components/Calendar';
-import { useModal } from 'hooks/withModal';
+import { useModal, ModalStateProviderContext } from 'hooks/withModal';
 import Navbar from 'Layout/Navbar';
 import Footer from 'Layout/Footer';
 import FetchingLoader from 'Layout/FetchingLoader';
@@ -20,32 +20,29 @@ function PublicLayout(ownProps) {
   return (
     <React.Fragment>
       <React.Suspense fallback={FallBackLoader}>
-        <Navbar
-          modalState={modalState}
-          user={user}
-          ownAccount={ownAccount}
-          sidebar={{ visible, setVisible }}
-        />
-        <CalendarSidebar visibility={{ visible, setVisible }}>
-          <div style={{ background: '#eef2f7' }}>
-            <div className="pre-main-content">
-              <div className="main-content">
-                <Container as="main">
-                  <Grid columns="1" centered>
-                    <Grid.Column>
-                      <Component modalState={modalState} />
-                    </Grid.Column>
-                  </Grid>
-                </Container>
+        <ModalStateProviderContext.Provider value={{ modalState }}>
+          <Navbar user={user} ownAccount={ownAccount} sidebar={{ visible, setVisible }} />
+          <CalendarSidebar visibility={{ visible, setVisible }}>
+            <div style={{ background: '#eef2f7' }}>
+              <div className="pre-main-content">
+                <div className="main-content">
+                  <Container as="main">
+                    <Grid columns="1" centered>
+                      <Grid.Column>
+                        <Component />
+                      </Grid.Column>
+                    </Grid>
+                  </Container>
+                </div>
               </div>
-            </div>
 
-            <Modal />
-            <div className="padding-bottom" />
-          </div>
-        </CalendarSidebar>
-        <Footer />
-        <FetchingLoader />
+              <Modal />
+              <div className="padding-bottom" />
+            </div>
+          </CalendarSidebar>
+          <Footer />
+          <FetchingLoader />
+        </ModalStateProviderContext.Provider>
       </React.Suspense>
     </React.Fragment>
   );

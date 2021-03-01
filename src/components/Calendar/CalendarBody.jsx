@@ -8,9 +8,12 @@ import { action } from 'redux/actions';
 import { REQUEST_SAVE } from 'redux/actions/meeting';
 import { getNextHourMoment } from 'helpers';
 import MeetingForm from 'components/elements/forms/MeetingForm';
+import { useModalStateProvider } from 'hooks/withModal';
 
 const CalenderBody = (ownProps) => {
-  const { currentMoment, modalState } = ownProps;
+  const { currentMoment } = ownProps;
+  const { modalState } = useModalStateProvider();
+
   const {
     setTitle,
     setOpen,

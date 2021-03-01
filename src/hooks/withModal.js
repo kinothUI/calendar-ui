@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, createContext, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal as SemanticModal, Header, Icon } from 'semantic-ui-react';
 
@@ -42,6 +42,17 @@ const getOnCloseDeleteModalProps = (setOpen, t) => ({
   inverted: true,
   onClick: () => setOpen(false),
 });
+
+export const ModalStateProviderContext = createContext(undefined);
+
+export function useModalStateProvider() {
+  const context = useContext(ModalStateProviderContext);
+
+  if (context === undefined)
+    throw new Error('useModalStateProvider must be used within ModalStateProvider.');
+
+  return context;
+}
 
 /**
  * Custom Hook to use a Modal

@@ -7,19 +7,19 @@ import { action, FETCH, CREATE, UPDATE, DELETE } from 'redux/actions';
 import { EntityDescriptions } from 'redux/reducers/entity';
 import DataTable from 'components/elements/DataTable';
 import AccountAdministrationForm from 'components/Backend/AccountAdministrationForm';
+import { useModalStateProvider } from 'hooks/withModal';
 
-function AccountAdministration(ownProps) {
+function AccountAdministration() {
+  const { modalState } = useModalStateProvider();
   const {
-    modalState: {
-      setTitle,
-      setOpen,
-      setSize,
-      setChildComponent,
-      setChildComponentProps,
-      setOnProceed,
-      setFormName,
-    },
-  } = ownProps;
+    setTitle,
+    setOpen,
+    setSize,
+    setChildComponent,
+    setChildComponentProps,
+    setOnProceed,
+    setFormName,
+  } = modalState;
 
   const dispatch = useDispatch();
   const { account } = useSelector((state) => state.entities);
