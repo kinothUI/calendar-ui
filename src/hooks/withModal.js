@@ -148,8 +148,6 @@ function useModalComponent(
         childComponentProps,
       } = Modal.props;
 
-      console.log('actionButtonState in useModalComponent', actionButtonState);
-
       return (
         <SemanticModal open={open} size={size} dimmer={dimmer} basic={formName ? false : true}>
           {renderTitle(title, formName)}

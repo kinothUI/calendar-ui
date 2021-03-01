@@ -7,8 +7,6 @@ function DataTable(props) {
   const callbackButtons = { onCreate, onDelete, onEdit };
   const tableRows = (rows && rows) || [];
 
-  console.log('tableRows', tableRows);
-
   return (
     <React.Fragment>
       <Divider hidden />

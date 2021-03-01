@@ -22,7 +22,6 @@ const Navbar = (ownProps) => {
   } = ownProps;
 
   const { modalState } = useModalStateProvider();
-  console.log('%c modalState', 'color: #ff0000', modalState);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
