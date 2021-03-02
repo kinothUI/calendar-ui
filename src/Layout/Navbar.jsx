@@ -4,6 +4,7 @@ import { Menu, Dropdown, Container } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { push } from 'connected-react-router';
 
+import useGlobalContextProvider from 'context/globalContextProvider';
 import BrandButton from 'Layout/BrandButton';
 import { LOGOUT } from 'redux/actions/ownAccount';
 import { action } from 'redux/actions';
@@ -15,12 +16,12 @@ import { useModalStateProvider } from 'hooks/withModal';
 
 const Navbar = (ownProps) => {
   const {
-    user,
     isBackend,
     ownAccount,
     sidebar: { setVisible },
   } = ownProps;
 
+  const { user } = useGlobalContextProvider();
   const { modalState } = useModalStateProvider();
 
   const { t } = useTranslation();

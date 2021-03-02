@@ -4,6 +4,7 @@ import { Switch } from 'react-router-dom';
 
 import { action } from 'redux/actions';
 import { FETCH_OWN_ACCOUNT } from 'redux/actions/ownAccount';
+import { GlobalContext } from 'context/globalContextProvider';
 import BackendRoutes from 'routing/BackendRoutes';
 import ProtectedRoutes from 'routing/ProtectedRoutes';
 import PublicRoutes from 'routing/PublicRoutes';
@@ -28,15 +29,17 @@ const App = () => {
   const user = { isAuthenticated, isAdmin };
 
   return (
-    <Switch>
-      <BackendRoutes path="/backend/account" exact component={AccountAdministration} user={user} />
-      <BackendRoutes path="/backend/team" exact component={TeamAdministration} user={user} />
-      <BackendRoutes path="/backend/room" exact component={RoomAdministration} user={user} />
+    <GlobalContext.Provider value={{ user }}>
+      <Switch>
+        <BackendRoutes path="/backend/account" exact component={AccountAdministration} />
+        <BackendRoutes path="/backend/team" exact component={TeamAdministration} />
+        <BackendRoutes path="/backend/room" exact component={RoomAdministration} />
 
-      <PublicRoutes path="/login" component={LoginForm} user={user} />
-      <ProtectedRoutes path="/" exact component={Calendar} user={user} />
-      <PublicRoutes path="*" component={NotFound} user={user} />
-    </Switch>
+        <PublicRoutes path="/login" component={LoginForm} />
+        <ProtectedRoutes path="/" exact component={Calendar} />
+        <PublicRoutes path="*" component={NotFound} />
+      </Switch>
+    </GlobalContext.Provider>
   );
 };
 

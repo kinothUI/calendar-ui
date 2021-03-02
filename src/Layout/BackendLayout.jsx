@@ -9,7 +9,7 @@ import FetchingLoader from 'Layout/FetchingLoader';
 import { useModal, ModalStateProviderContext } from 'hooks/withModal';
 
 function BackendLayout(ownProps) {
-  const { component: Component, user } = ownProps;
+  const { component: Component } = ownProps;
 
   const [visible, setVisible] = React.useState(false);
 
@@ -20,7 +20,7 @@ function BackendLayout(ownProps) {
     <React.Fragment>
       <ModalStateProviderContext.Provider value={{ modalState }}>
         <div className="ui fixed top sticky" style={{ width: '100%' }}>
-          <Navbar user={user} ownAccount={ownAccount} sidebar={{ visible, setVisible }} isBackend />
+          <Navbar ownAccount={ownAccount} sidebar={{ visible, setVisible }} isBackend />
         </div>
         <Divider fitted hidden />
 

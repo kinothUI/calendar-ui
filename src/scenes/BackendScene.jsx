@@ -1,10 +1,13 @@
 import React from 'react';
 
+import useGlobalContextProvider from 'context/globalContextProvider';
 import NoAuthRedirect from 'routing/NoAuthRedirect';
 import AccessDenied from 'routing/AccessDenied';
 
 function BackendScene(ownProps) {
-  const { user, children } = ownProps;
+  const { children } = ownProps;
+
+  const { user } = useGlobalContextProvider();
 
   if (!user.isAuthenticated) return <NoAuthRedirect />;
   if (user.isAuthenticated && !user.isAdmin) return <AccessDenied />;

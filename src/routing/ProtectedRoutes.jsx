@@ -5,13 +5,13 @@ import ProtectedScene from 'scenes/CalendarScene';
 import PublicLayout from 'Layout/PublicLayout';
 
 const ProtectedRoutes = (ownProps) => {
-  const { component: Component, user, ...rest } = ownProps;
+  const { component: Component, ...rest } = ownProps;
 
   return (
     <Route
       {...rest}
       render={(props) => (
-        <ProtectedScene user={user}>
+        <ProtectedScene>
           <PublicLayout {...props} component={Component} {...ownProps} />
         </ProtectedScene>
       )}

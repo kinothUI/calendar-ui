@@ -10,7 +10,7 @@ import FetchingLoader from 'Layout/FetchingLoader';
 import { FallBackLoader } from 'index';
 
 function PublicLayout(ownProps) {
-  const { component: Component, user } = ownProps;
+  const { component: Component } = ownProps;
 
   const { ownAccount } = useSelector((state) => state);
   const { modalState, Modal } = useModal();
@@ -21,7 +21,7 @@ function PublicLayout(ownProps) {
     <React.Fragment>
       <React.Suspense fallback={FallBackLoader}>
         <ModalStateProviderContext.Provider value={{ modalState }}>
-          <Navbar user={user} ownAccount={ownAccount} sidebar={{ visible, setVisible }} />
+          <Navbar ownAccount={ownAccount} sidebar={{ visible, setVisible }} />
           <CalendarSidebar visibility={{ visible, setVisible }}>
             <div style={{ background: '#eef2f7' }}>
               <div className="pre-main-content">

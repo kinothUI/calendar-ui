@@ -5,14 +5,14 @@ import BackendScene from 'scenes/BackendScene';
 import BackendLayout from 'Layout/BackendLayout';
 
 const BackendRoutes = (ownProps) => {
-  const { component: Component, user, ...rest } = ownProps;
+  const { component: Component, ...rest } = ownProps;
 
   return (
     <Route
       {...rest}
       render={(props) => (
-        <BackendScene user={user}>
-          <BackendLayout {...props} component={Component} user={user} {...ownProps} />
+        <BackendScene>
+          <BackendLayout {...props} component={Component} {...ownProps} />
         </BackendScene>
       )}
     />
